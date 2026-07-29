@@ -1,0 +1,23 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+*.swp
+
+# Local previews
+*.local.html
+
+# Secrets (never commit)
+.env
+.env.local
+credentials.json
+
+# Squarespace backups (if Jamie sends exports)
+squarespace-backups/
+
+# Build artifacts (if a build step is added later)
+dist/
+node_modules/

@@ -1,0 +1,27 @@
+<!--
+  ============================================================
+  SQUARESPACE HEADER CODE INJECTION
+  ============================================================
+  Where this goes:
+    Settings → Advanced → Code Injection → HEADER
+  Why it's separate:
+    Squarespace strips <link> tags from Custom CSS.
+    Fonts must be loaded via header injection so they're
+    available on every page (homepage + coach pages + blog).
+  ============================================================
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+
+<!--
+  Optional: uncomment this to force smooth-scroll behavior even on pages
+  where Squarespace's default template overrides it.
+-->
+<!--
+<style>
+  html { scroll-behavior: smooth; }
+  section[id], #top, #trial { scroll-margin-top: 72px; }
+</style>
+-->
