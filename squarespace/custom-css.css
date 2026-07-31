@@ -176,7 +176,8 @@
   .coach-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--ink);}
   .coach{background:var(--white);aspect-ratio:3/4;position:relative;overflow:hidden;cursor:pointer;text-align:left;border:0;padding:0;}
   .coach.head{grid-column:span 2;aspect-ratio:4/3;}
-  @media(min-width:768px){.coach-grid{grid-template-columns:2fr 1fr 1fr 1fr 1fr;}.coach.head{grid-column:1;grid-row:span 2;aspect-ratio:auto;}}
+  @media(max-width:767px){.coach:last-child:not(.head){grid-column:span 2;}}
+  @media(min-width:768px){.coach-grid{grid-template-columns:2fr 1fr 1fr 1fr;}.coach.head{grid-column:1;grid-row:span 3;aspect-ratio:auto;}}
   .coach-bg{position:absolute;inset:0;background:linear-gradient(180deg,#c8c4be 0%,var(--ink) 100%);transition:transform .5s ease;}
   .coach.head .coach-bg{background:linear-gradient(180deg,#fa3a3f 0%,var(--red-d) 50%,var(--ink) 100%);}
   .coach:hover .coach-bg{transform:scale(1.05);}
@@ -192,6 +193,11 @@
   .coach-role{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:10px;text-transform:uppercase;letter-spacing:0.15em;opacity:0.8;margin-top:6px;}
   .coach-hint{position:absolute;bottom:18px;right:18px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:10px;text-transform:uppercase;letter-spacing:0.15em;opacity:0;transition:opacity .25s ease;color:var(--white);}
   .coach:hover .coach-hint{opacity:0.9;}
+  /* Coach tile photo (coaches with images) */
+  .coach-tile-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;transition:transform .5s ease;}
+  .coach:hover .coach-tile-img{transform:scale(1.05);}
+  /* Red tint overlay for Jamie's tile when he has a photo */
+  .coach-head-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(250,58,63,0.6) 0%,rgba(183,15,20,0.5) 50%,rgba(0,0,0,0.7) 100%);}
   .placeholder-note{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;opacity:0.5;margin-top:20px;}
 
   /* MODAL */
@@ -201,7 +207,7 @@
   .modal-backdrop.open .modal{transform:translateY(0) scale(1);}
   .modal-close{position:absolute;top:16px;right:16px;width:44px;height:44px;background:var(--ink);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:300;line-height:1;z-index:2;transition:background .2s ease;}
   .modal-close:hover{background:var(--red);}
-  .modal-grid{display:grid;grid-template-columns:1fr;}
+  .modal-grid{display:grid;grid-template-columns:1fr;align-items:start;}
   @media(min-width:700px){.modal-grid{grid-template-columns:5fr 7fr;}}
   .modal-photo{aspect-ratio:3/4;position:relative;background:linear-gradient(180deg,#c8c4be 0%,var(--ink) 100%);overflow:hidden;}
   .modal-photo.head{background:linear-gradient(180deg,#fa3a3f 0%,var(--red-d) 50%,var(--ink) 100%);}
@@ -236,6 +242,21 @@
   .program-placeholder-body{font-size:14px;line-height:1.6;color:#2a2a2a;}
   .program-placeholder-body p + p{margin-top:8px;}
   .program-placeholder-label{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:0.18em;color:var(--red);margin-bottom:8px;}
+
+  /* Coach modal carousel */
+  .modal-carousel-panel{overflow:hidden;}
+  .mc-single-img{width:100%;height:auto;display:block;}
+  .mc-wrap{overflow:hidden;transition:height 350ms ease;position:relative;}
+  .mc-slide{display:none;}
+  .mc-slide.active{display:block;}
+  .mc-slide img{width:100%;height:auto;display:block;}
+  .mc-ui{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--ink);}
+  .mc-btn{width:36px;height:36px;background:transparent;color:var(--white);font-size:28px;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:color .2s ease;padding:0;border:0;}
+  .mc-btn:hover:not(:disabled){color:var(--red);}
+  .mc-btn:disabled{opacity:0.3;cursor:not-allowed;}
+  .mc-dots{display:flex;gap:6px;align-items:center;}
+  .mc-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.3);border:0;cursor:pointer;transition:background .2s ease;padding:0;}
+  .mc-dot.active{background:var(--red);}
 
   /* About modal */
   .modal.about-modal{max-width:840px;}

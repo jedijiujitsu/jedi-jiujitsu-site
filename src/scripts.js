@@ -16,6 +16,10 @@
 // ---------------------------------------------------------------------------
 const BEHOLD_FEED_ID = null;
 
+// Maximum photos shown in the coach modal carousel.
+// All paths are stored in coaches.js; rendering slices to this cap.
+const MAX_CAROUSEL_PHOTOS = 6;
+
 const DISC = { bjj:'BJJ', judo:'Judo', muaythai:'Muay Thai', kids:'Kids', homeschool:'Homeschool', private:'Private' };
 
 /* Coach grid */
@@ -23,8 +27,11 @@ const coachGrid = document.getElementById('coach-grid');
 COACHES.forEach((c, i) => {
   const btn = document.createElement('button');
   btn.className = 'coach' + (c.head ? ' head' : '');
+  const hasPhoto = c.images && c.images.length > 0;
   btn.innerHTML = `
     <div class="coach-bg"></div>
+    ${hasPhoto ? `<img class="coach-tile-img" src="${c.images[0]}" alt="${c.name}" loading="lazy">` : ''}
+    ${(c.head && hasPhoto) ? '<div class="coach-head-overlay"></div>' : ''}
     <div class="coach-grain"></div>
     <div class="coach-content">
       <div class="coach-top">
@@ -229,15 +236,50 @@ function openCoachModal(c, num) {
          <div class="modal-creds-title">Credentials</div>
          <ul class="modal-creds">${c.creds.map(cr => `<li>${cr}</li>`).join('')}</ul>
        ` : ''}`;
-  modalContent.className = 'modal';
-  modalContent.innerHTML = `
-    <button class="modal-close" aria-label="Close">×</button>
-    <div class="modal-grid">
+
+  // Photo panel: 0 = gradient placeholder, 1 = single img, 2+ = carousel (capped at MAX_CAROUSEL_PHOTOS)
+  const photos = (c.images || []).slice(0, MAX_CAROUSEL_PHOTOS);
+  let photoHtml;
+  if (photos.length === 0) {
+    // Unchanged placeholder — gradient + /Photo label + number
+    photoHtml = `
       <div class="modal-photo ${c.head ? 'head' : ''}">
         <div class="modal-photo-grain"></div>
         <span class="modal-photo-tag">/Photo</span>
         <div class="modal-photo-num">${String(num).padStart(2,'0')}</div>
-      </div>
+      </div>`;
+  } else if (photos.length === 1) {
+    // Single image — no carousel chrome
+    photoHtml = `
+      <div class="modal-carousel-panel">
+        <img class="mc-single-img" src="${photos[0]}" alt="${c.name}" loading="eager">
+      </div>`;
+  } else {
+    // Multi-image carousel
+    const slides = photos.map((src, i) => `
+      <div class="mc-slide${i === 0 ? ' active' : ''}">
+        <img src="${src}" alt="${c.name}, photo ${i+1}" loading="${i === 0 ? 'eager' : 'lazy'}">
+      </div>`).join('');
+    const dots = photos.map((_, i) => `
+      <button class="mc-dot${i === 0 ? ' active' : ''}" aria-label="Photo ${i+1}"></button>`).join('');
+    photoHtml = `
+      <div class="modal-carousel-panel" data-carousel>
+        <div class="mc-wrap">
+          ${slides}
+        </div>
+        <div class="mc-ui">
+          <button class="mc-btn mc-prev" aria-label="Previous photo" disabled>&#8249;</button>
+          <div class="mc-dots">${dots}</div>
+          <button class="mc-btn mc-next" aria-label="Next photo">&#8250;</button>
+        </div>
+      </div>`;
+  }
+
+  modalContent.className = 'modal';
+  modalContent.innerHTML = `
+    <button class="modal-close" aria-label="Close">×</button>
+    <div class="modal-grid">
+      ${photoHtml}
       <div class="modal-body">
         <div class="modal-eyebrow">${c.head ? 'Head Instructor' : 'Coach'}</div>
         <h2 class="modal-name">${c.name}</h2>
@@ -246,7 +288,60 @@ function openCoachModal(c, num) {
         ${c.url ? `<a href="${c.url}" class="modal-link" target="_blank" rel="noopener">View Full Bio Page</a>` : ''}
       </div>
     </div>`;
+
+  // Wire carousel controls fresh each time (innerHTML wipes previous listeners)
+  if (photos.length >= 2) {
+    initCarousel(modalContent.querySelector('[data-carousel]'), photos);
+  }
+
   openModal();
+}
+
+function initCarousel(panel, photos) {
+  let current = 0;
+  const wrap = panel.querySelector('.mc-wrap');
+  const slideEls = panel.querySelectorAll('.mc-slide');
+  const prevBtn = panel.querySelector('.mc-prev');
+  const nextBtn = panel.querySelector('.mc-next');
+  const dotBtns = panel.querySelectorAll('.mc-dot');
+
+  function goTo(idx) {
+    if (idx === current) return;
+
+    // Lock current height as px value so CSS transition has a start point
+    const h0 = wrap.offsetHeight;
+    if (h0 > 0) wrap.style.height = h0 + 'px';
+
+    // Swap active slide and dot
+    slideEls[current].classList.remove('active');
+    dotBtns[current].classList.remove('active');
+    current = idx;
+    slideEls[current].classList.add('active');
+    dotBtns[current].classList.add('active');
+
+    // Update arrow states
+    prevBtn.disabled = idx === 0;
+    nextBtn.disabled = idx === photos.length - 1;
+
+    // Animate wrap height to match new slide
+    // If image already decoded, measure immediately; otherwise wait for load.
+    const newImg = slideEls[current].querySelector('img');
+    function setNewHeight() {
+      requestAnimationFrame(() => {
+        const newH = slideEls[current].offsetHeight;
+        if (newH > 0) wrap.style.height = newH + 'px';
+      });
+    }
+    if (newImg.complete && newImg.naturalHeight > 0) {
+      setNewHeight();
+    } else {
+      newImg.addEventListener('load', setNewHeight, { once: true });
+    }
+  }
+
+  prevBtn.addEventListener('click', () => { if (current > 0) goTo(current - 1); });
+  nextBtn.addEventListener('click', () => { if (current < photos.length - 1) goTo(current + 1); });
+  dotBtns.forEach((dot, i) => dot.addEventListener('click', () => goTo(i)));
 }
 
 function openClassModal(cl, day) {
