@@ -79,7 +79,6 @@ function buildSchedule(filter='all') {
               <div class="sched-class-time${cl.flexTime ? ' flex' : ''}">${cl.time}</div>
               <div class="sched-class-info">
                 <div class="sched-class-name">${cl.name}</div>
-                <div class="sched-class-coach">w/ ${cl.coach}</div>
               </div>
               <div class="sched-class-disc" data-disc="${cl.discipline}">${DISC[cl.discipline]}</div>
             </button>
@@ -367,7 +366,6 @@ function openClassModal(cl, day) {
     return;
   }
 
-  const coach = findCoachByName(cl.coach);
   modalContent.className = 'modal class-modal';
   modalContent.innerHTML = `
     <button class="modal-close" aria-label="Close">×</button>
@@ -377,31 +375,11 @@ function openClassModal(cl, day) {
       <h2 class="modal-name">${cl.name}</h2>
       <div class="modal-role">Discipline · ${DISC[cl.discipline]}</div>
       ${cl.note ? `<p class="class-modal-note">${cl.note}</p>` : ''}
-      <div style="margin-top:8px;padding:16px;background:var(--bone);border-left:3px solid var(--red);">
-        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;color:var(--red);">Typically Led By</div>
-        <div style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:28px;margin-top:6px;line-height:1.1;">${cl.coach}</div>
-        <div style="font-family:'Barlow',sans-serif;font-size:12px;opacity:0.6;margin-top:8px;font-style:italic;">Subject to change — coverage rotates between instructors.</div>
-      </div>
-      ${coach ? `<a href="#" class="modal-link" data-open-coach="${coach.id}">Read ${coach.name.split(' ')[0]}'s Full Bio</a>` : ''}
       <a href="https://www.jjjtulsajiu-jitsu.com/trial-class-sign-up" class="btn-red-lg" style="margin-top:8px;align-self:flex-start;">Try This Class — Free</a>
     </div>`;
   openModal();
-
-  const link = modalContent.querySelector('[data-open-coach]');
-  if (link) {
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-      const c = COACHES.find(x => x.id === link.dataset.openCoach);
-      if (c) openCoachModal(c, COACHES.indexOf(c) + 1);
-    });
-  }
 }
 
-function findCoachByName(s) {
-  if (!s || /all|any|staff/i.test(s)) return null;
-  const first = s.split('/')[0].trim().replace(/^Dr\.\s*/i, '');
-  return COACHES.find(c => c.name === first || first.includes(c.name.split(' ')[0]));
-}
 
 function openModal() {
   backdrop.classList.add('open');
