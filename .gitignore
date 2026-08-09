@@ -21,3 +21,5 @@ squarespace-backups/
 # Build artifacts (if a build step is added later)
 dist/
 node_modules/
+
+*.ai
