@@ -175,11 +175,11 @@
   /* COACHES */
   .coach-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--ink);}
   .coach{background:var(--white);aspect-ratio:3/4;position:relative;overflow:hidden;cursor:pointer;text-align:left;border:0;padding:0;}
-  .coach.head{grid-column:span 2;aspect-ratio:4/3;}
+  .coach.head{grid-column:span 2;aspect-ratio:4/3;border:4px solid var(--red);}
   @media(max-width:767px){.coach:last-child:not(.head){grid-column:span 2;}}
   @media(min-width:768px){.coach-grid{grid-template-columns:2fr 1fr 1fr 1fr;}.coach.head{grid-column:1;grid-row:span 3;aspect-ratio:auto;}}
   .coach-bg{position:absolute;inset:0;background:linear-gradient(180deg,#c8c4be 0%,var(--ink) 100%);transition:transform .5s ease;}
-  .coach.head .coach-bg{background:linear-gradient(180deg,#fa3a3f 0%,var(--red-d) 50%,var(--ink) 100%);}
+  .coach.head .coach-bg{background:linear-gradient(180deg,#c8c4be 0%,var(--ink) 100%);}
   .coach:hover .coach-bg{transform:scale(1.05);}
   .coach-grain{position:absolute;inset:0;opacity:0.25;background-image:radial-gradient(circle at 1px 1px,rgba(255,255,255,0.4) 1px,transparent 0);background-size:3px 3px;}
   .coach-content{position:absolute;inset:0;padding:18px;display:flex;flex-direction:column;justify-content:space-between;color:var(--white);}
@@ -196,8 +196,6 @@
   /* Coach tile photo (coaches with images) */
   .coach-tile-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;transition:transform .5s ease;}
   .coach:hover .coach-tile-img{transform:scale(1.05);}
-  /* Red tint overlay for Jamie's tile when he has a photo */
-  .coach-head-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(250,58,63,0.20) 0%,rgba(183,15,20,0.16) 50%,rgba(0,0,0,0.55) 100%);}
   .placeholder-note{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;opacity:0.5;margin-top:20px;}
 
   /* MODAL */
