@@ -312,7 +312,15 @@ const COACHES = [
       "He provides an environment that allows everyone to progress at their own pacing and to reach their individual goals."
     ],
     creds:["2nd Degree Blackbelt Brazilian Jiu-Jitsu","2nd Degree Blackbelt Karate","4th Degree Blackbelt Ketsugo Jiu-Jitsu"],
-    images:[...Array(28)].map((_,i)=>`images/coaches/jamie/jamie-mickle-${String(i+1).padStart(2,'0')}.jpg`)
+    // NOTE: array order is deliberate — jamie-03 is first because it is the tile/primary photo.
+    // Do NOT re-sort these by filename. images[0] = tile photo.
+    images:[
+      "images/coaches/jamie/jamie-03.jpg",
+      "images/coaches/jamie/jamie-01.jpg",
+      "images/coaches/jamie/jamie-02.jpg",
+      "images/coaches/jamie/jamie-04.jpg",
+      "images/coaches/jamie/jamie-05.jpg"
+    ]
   },
   { id:'greg', name:'Greg Hoyle', role:'Professor · BJJ Instructor',
     url:'https://www.jjjtulsajiu-jitsu.com/gregory-hoyle-bjj',
@@ -385,20 +393,32 @@ const COACHES = [
     ]
   },
   { id:'tim', name:'Tim Webster', role:'BJJ Instructor',
-    bio:["[BIO COMING SOON — do not publish until replaced]"],
-    creds:[],
-    images:[
-      "images/coaches/tim/tim-webster-01.jpg"
-    ]
+    bio:[
+      "Tim Webster is a mechanical engineer who has been studying Brazilian Jiu-Jitsu since 2013 when he began training in Gracie Jiu-Jitsu. In 2018 he began teaching as a certified instructor and he received his black belt in 2023. In 2025 he joined the Carlos Machado Jiu-Jitsu association as an instructor at Jedi Jiu-Jitsu, where he enjoys helping kids and adults to learn the art of Brazilian Jiu-Jitsu. As someone who started Jiu-Jitsu in his early 40s, Tim especially enjoys helping people who think that they are not young enough, strong enough, or in good enough shape to learn martial arts.",
+      "When he is not on the mats teaching, Tim can be found either working as the Chief Operating Officer for XRG Technologies, an engineering company specializing in combustion and heater transfer solutions for the refining and chemical industry, or spending time with his wife Crystal, daughter Holly and two poorly behaved rescue dogs, Arlo and Lola. He enjoys reading, swimming, watching movies, traveling and teaching wrist locks to everyone."
+    ],
+    creds:["Black Belt in Brazilian Jiu-Jitsu (2023)","Certified instructor since 2018","Training since 2013"],
+    // NOTE: tim-00.jpg filename is intentional — do not rename to tim-01 to "fix" the numbering.
+    images:["images/coaches/tim/tim-00.jpg"]
   },
   { id:'cortez', name:'Cortez Edwards', role:'BJJ Instructor',
-    bio:["[BIO COMING SOON — do not publish until replaced]"],
-    creds:[],
-    images:[]
+    bio:[
+      "Cortez Edwards is a dedicated mental health professional and youth athletics coach with 15 years of experience specializing in supporting youth aged 6 to 19.",
+      "Born in Tulsa, Oklahoma, and a graduate of Union High School, Cortez earned his bachelor's degrees in Sociology and Criminal Justice from Northeastern State University. Driven by a lifelong commitment to empowering youth and strengthening families, he is currently advancing his expertise by pursuing a Master of Social Work (MSW).",
+      "Beyond his clinical work, Cortez has spent the last two decades mentoring young men and women and young athletes, coaching youth football, soccer, wrestling, and Brazilian Jiu-Jitsu (BJJ). His deep understanding of athletic discipline stems from his own experience competing in amateur kickboxing, Taekwondo, and Goju Ryu Karate and Brazilian Jiu Jitsu.",
+      "Cortez lives by the personal motto: \"If your mind can conceive it and you firmly believe it, then you can achieve it.\" He resides in Oklahoma with his wife, Danna. They have three children—Destiny (26), Isaiah (23), and Jase (18)—and a 7-year-old granddaughter, Alecia, and their 7 year old pit bull Justice."
+    ],
+    creds:["B.A. Sociology and Criminal Justice, Northeastern State University","Pursuing Master of Social Work (MSW)","15 years coaching youth athletics"],
+    images:["images/coaches/cortez/cortez-01.jpg"]
   },
   { id:'tommy', name:'Tommy Ganem', role:'BJJ Instructor',
-    bio:["[BIO COMING SOON — do not publish until replaced]"],
-    creds:[],
+    bio:[
+      "Tommy Ganem is a devoted Christian, husband, and father who believes that faith, family, and service are the foundation of a meaningful life. He has been married to his wife for 16 years, and together they are raising their two children. Those same values of integrity, humility, discipline, and respect are the foundation of his approach to teaching and leadership.",
+      "Tommy has been training in Brazilian Jiu-Jitsu since 2019 and is passionate about helping students grow both on and off the mats. His love for Jiu-Jitsu extends beyond the academy, as his wife and children have also trained in Brazilian Jiu-Jitsu, making it a true family pursuit. He believes Brazilian Jiu-Jitsu is more than a martial art—it is a lifelong journey that builds confidence, resilience, self-discipline, and the ability to overcome adversity. His instruction emphasizes strong fundamentals, technical precision, and creating a welcoming environment where students of all ages and skill levels can thrive.",
+      "In addition to his martial arts background, Tommy has more than 25 years of firearms training and experience. He is an NRA Certified Firearms Instructor and NRA Certified Range Safety Officer with extensive experience across multiple weapon platforms. As a competitive shooter, he has competed with pistols, rifles, and shotguns, always emphasizing safety, responsibility, and disciplined marksmanship.",
+      "Outside of the academy, Tommy is a successful business owner who is committed to serving others through leadership and mentorship. Whether teaching Brazilian Jiu-Jitsu or firearms, his mission is to equip students with the skills, confidence, and character to succeed while fostering a culture of respect, accountability, and continuous improvement."
+    ],
+    creds:["NRA Certified Firearms Instructor","NRA Certified Range Safety Officer","Training in Brazilian Jiu-Jitsu since 2019"],
     images:[
       "images/coaches/tommy/tommy-ganem-01.jpg",
       "images/coaches/tommy/tommy-ganem-02.jpg",
