@@ -46,8 +46,9 @@
   .btn-red{display:inline-flex;align-items:center;gap:10px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:0.12em;padding:12px 18px;background:var(--red);color:var(--white);transition:background .2s ease;border:0;cursor:pointer;}
   .btn-red:hover{background:var(--red-d);}
   .menu-toggle{display:inline-flex;padding:8px;margin-right:-8px;}
-  @media(min-width:900px){.nav-links{display:flex;}.btn-red.desktop{display:inline-flex;}.menu-toggle{display:none;}}
   .btn-red.desktop{display:none;}
+  @media(min-width:900px){.nav-links{display:flex;}.btn-red.desktop{display:inline-flex;}.menu-toggle{display:none;}}
+  @media(min-width:900px) and (max-width:1024px){.nav-links{gap:16px;}}
   .mobile-menu{background:var(--ink);color:var(--white);display:none;border-top:2px solid var(--red);}
   .mobile-menu.open{display:block;}
   .mobile-menu a.link,

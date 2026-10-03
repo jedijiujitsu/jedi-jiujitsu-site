@@ -29,6 +29,11 @@ function loadElfsight() {
   document.head.appendChild(s);
 }
 
+// Gymdesk trial signup — centralized so every CTA points to the same place.
+// If the URL changes, update it here AND in squarespace/nav-injection.html
+// and squarespace/footer-block.html (those files can't read JS constants).
+const TRIAL_URL = "https://jedi-jiu-jitsu.gymdesk.com/signup/v/l4040";
+
 // Base URL for images. Empty string = relative paths (local preview).
 // Set to the GitHub Pages URL for the Squarespace build.
 const IMAGE_BASE = "https://jedijiujitsu.github.io/jedi-jiujitsu-site/src/";
@@ -175,7 +180,7 @@ function openProgramModal(p) {
       <h2 class="modal-name">${p.name}</h2>
       <div class="modal-role">${p.tag}</div>
       ${bodyHtml}
-      <a href="https://www.jjjtulsajiu-jitsu.com/trial-class-sign-up" class="btn-red-lg" style="margin-top:8px;align-self:flex-start;">Try a Free Class →</a>
+      <a href="${TRIAL_URL}" class="btn-red-lg" target="_blank" rel="noopener" style="margin-top:8px;align-self:flex-start;">Try a Free Class →</a>
       <a href="${p.url}" class="modal-link" target="_blank" rel="noopener">View Full Program Page</a>
     </div>`;
   openModal();
@@ -209,7 +214,7 @@ if (aboutBtn) {
           <p style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:24px;text-transform:uppercase;color:var(--red);">Come and join our family.</p>
         </div>
 
-        <a href="https://www.jjjtulsajiu-jitsu.com/trial-class-sign-up" class="btn-red-lg" style="margin-top:8px;align-self:flex-start;">Schedule Your First Class →</a>
+        <a href="${TRIAL_URL}" class="btn-red-lg" target="_blank" rel="noopener" style="margin-top:8px;align-self:flex-start;">Schedule Your First Class →</a>
       </div>`;
     openModal();
   });
@@ -392,7 +397,7 @@ function openClassModal(cl, day) {
       <h2 class="modal-name">${cl.name}</h2>
       <div class="modal-role">Discipline · ${DISC[cl.discipline]}</div>
       ${cl.note ? `<p class="class-modal-note">${cl.note}</p>` : ''}
-      <a href="https://www.jjjtulsajiu-jitsu.com/trial-class-sign-up" class="btn-red-lg" style="margin-top:8px;align-self:flex-start;">Try This Class — Free</a>
+      <a href="${TRIAL_URL}" class="btn-red-lg" target="_blank" rel="noopener" style="margin-top:8px;align-self:flex-start;">Try This Class — Free</a>
     </div>`;
   openModal();
 }

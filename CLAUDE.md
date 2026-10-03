@@ -155,6 +155,21 @@ Confirmed from a live DOM dump of the site. These are facts, not inferences.
 
 ---
 
+## Gymdesk signup URL locations
+
+The trial-class signup URL (`https://jedi-jiu-jitsu.gymdesk.com/signup/v/l4040`) appears in these files. If the URL changes, update **all** of them:
+
+| File | Notes |
+|------|-------|
+| `src/scripts.js` | `TRIAL_URL` constant — used by program, class, and about modals |
+| `src/homepage.html` | Hero CTA, Programs "Book a Trial", Visit CTA, footer "Free Trial" |
+| `squarespace/nav-injection.html` | Desktop "Free Class" button + mobile menu link (hardcoded, can't read JS) |
+| `squarespace/footer-block.html` | "Free Trial" link (hardcoded, can't read JS) |
+
+The build script inlines `src/scripts.js` into `squarespace/homepage-code-block.html`, so updating `TRIAL_URL` in scripts.js + running `build.ps1` covers the Code Block. The nav-injection and footer-block files must be updated by hand and re-pasted into Squarespace.
+
+---
+
 ## Do not do this
 
 **Squarespace Developer Mode is off-limits.** It is technically available on 7.0, but we are deliberately not using it for the following reasons:
