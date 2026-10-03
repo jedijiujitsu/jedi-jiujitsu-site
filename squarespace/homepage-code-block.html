@@ -596,6 +596,10 @@ const REVIEWS = [
 // ---------------------------------------------------------------------------
 const BEHOLD_FEED_ID = null;
 
+// Base URL for images. Empty string = relative paths (local preview).
+// Set to the GitHub Pages URL for the Squarespace build.
+const IMAGE_BASE = "https://jedijiujitsu.github.io/jedi-jiujitsu-site/src/";
+
 // Maximum photos shown in the coach modal carousel.
 // All paths are stored in coaches.js; rendering slices to this cap.
 const MAX_CAROUSEL_PHOTOS = 6;
@@ -610,7 +614,7 @@ COACHES.forEach((c, i) => {
   const hasPhoto = c.images && c.images.length > 0;
   btn.innerHTML = `
     <div class="coach-bg"></div>
-    ${hasPhoto ? `<img class="coach-tile-img" src="${c.images[0]}" alt="${c.name}" loading="lazy">` : ''}
+    ${hasPhoto ? `<img class="coach-tile-img" src="${IMAGE_BASE}${c.images[0]}" alt="${c.name}" loading="lazy">` : ''}
     ${(c.head && hasPhoto) ? '<div class="coach-head-overlay"></div>' : ''}
     <div class="coach-grain"></div>
     <div class="coach-content">
@@ -831,13 +835,13 @@ function openCoachModal(c, num) {
     // Single image — no carousel chrome
     photoHtml = `
       <div class="modal-carousel-panel">
-        <img class="mc-single-img" src="${photos[0]}" alt="${c.name}" loading="eager">
+        <img class="mc-single-img" src="${IMAGE_BASE}${photos[0]}" alt="${c.name}" loading="eager">
       </div>`;
   } else {
     // Multi-image carousel
     const slides = photos.map((src, i) => `
       <div class="mc-slide${i === 0 ? ' active' : ''}">
-        <img src="${src}" alt="${c.name}, photo ${i+1}" loading="${i === 0 ? 'eager' : 'lazy'}">
+        <img src="${IMAGE_BASE}${src}" alt="${c.name}, photo ${i+1}" loading="${i === 0 ? 'eager' : 'lazy'}">
       </div>`).join('');
     const dots = photos.map((_, i) => `
       <button class="mc-dot${i === 0 ? ' active' : ''}" aria-label="Photo ${i+1}"></button>`).join('');
