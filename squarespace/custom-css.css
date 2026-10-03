@@ -539,6 +539,360 @@
      yourself adding it elsewhere, check the DOM for inline styles first.
      ============================================================= */
 
+  /* =============================================================
+     BLOG STYLING — /current-news index + single post pages
+     =============================================================
+     Scoped to body.collection-current-news so homepage (#jjj) and
+     other pages are unaffected. Selectors come from CLAUDE.md's
+     confirmed Bedford 7.0 (templateId 52e96934...) structure:
+
+       INDEX (body.view-list):
+         .blog-list > article.entry.h-entry.hentry
+           > header.entry-header
+               h1.entry-title.entry-title-list > a
+               .entry-dateline > time.published
+               .entry-author
+           + .entry-content
+           + footer.entry-footer
+
+       POST (body.view-item):
+         .blog-item > article.entry.clearfix
+           > header.entry-header
+               h1.entry-title.entry-title-item
+               .entry-dateline > time
+           + .entry-content.e-content
+           + footer.entry-footer
+           + .author-profile
+         .p-comment
+         nav.pagination
+
+     !important is used ONLY where Bedford's stylesheet or inline
+     styles win — each instance is listed in the audit at the end
+     of this section.
+     ============================================================= */
+
+  /* --- Blog base (both index and post) ---
+     Bedford body bg is rgb(23,23,23) and post text is rgba(0,0,0,0.5).
+     Override both, plus #siteWrapper/#page which may inherit bg. */
+  body.collection-current-news,
+  body.collection-current-news #siteWrapper,
+  body.collection-current-news #page {
+    background: var(--white) !important;
+    color: var(--ink) !important;
+  }
+  body.collection-current-news {
+    font-family: 'Barlow', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Top padding: our fixed nav overlaps content because
+     .transparent-header #page { padding-top: 0 } was zeroed globally.
+     Nav height: 86px mobile / 118px desktop + 32px breathing room. */
+  body.collection-current-news #page {
+    padding-top: 118px !important;
+  }
+  @media(min-width:900px){
+    body.collection-current-news #page {
+      padding-top: 150px !important;
+    }
+  }
+
+  /* --- INDEX — body.view-list --- */
+
+  /* Centered reading column */
+  body.view-list .blog-list {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  /* Article cards */
+  body.view-list .blog-list article.entry {
+    border-top: 2px solid var(--ink);
+    padding: 40px 0;
+  }
+
+  /* Title */
+  body.view-list h1.entry-title,
+  body.view-list h1.entry-title-list {
+    font-family: 'Big Shoulders Display', sans-serif;
+    font-weight: 900;
+    font-size: clamp(36px, 5vw, 64px);
+    line-height: 0.9;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    color: var(--ink) !important;
+    margin: 0;
+  }
+  body.view-list h1.entry-title a,
+  body.view-list h1.entry-title a:link,
+  body.view-list h1.entry-title a:visited {
+    color: var(--ink) !important;
+    text-decoration: none !important;
+  }
+  body.view-list h1.entry-title a:hover {
+    color: var(--red) !important;
+  }
+
+  /* Date label */
+  body.view-list .entry-dateline,
+  body.view-list .entry-dateline time {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--red);
+    margin-top: 12px;
+    display: block;
+  }
+
+  /* Hide author/byline */
+  body.view-list .entry-byline,
+  body.view-list .entry-author {
+    display: none;
+  }
+
+  /* Entry body text */
+  body.view-list .entry-content {
+    font-family: 'Barlow', system-ui, sans-serif;
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--ink) !important;
+    margin-top: 16px;
+  }
+  body.view-list .entry-content p {
+    color: var(--ink) !important;
+  }
+
+  /* Read More button */
+  body.view-list .entry-more-link,
+  body.view-list a.entry-more-link {
+    display: inline-block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 12px 18px;
+    background: var(--red);
+    color: var(--white) !important;
+    text-decoration: none !important;
+    margin-top: 20px;
+    transition: background 0.2s ease;
+  }
+  body.view-list .entry-more-link:hover,
+  body.view-list a.entry-more-link:hover {
+    background: var(--red-d);
+  }
+
+  /* Tags — small pill labels */
+  body.view-list .entry-tags {
+    margin-top: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  body.view-list .entry-tags a,
+  body.view-list .entry-tags a:link,
+  body.view-list .entry-tags a:visited {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 4px 10px;
+    border: 1px solid var(--ink);
+    background: transparent;
+    color: var(--ink) !important;
+    text-decoration: none !important;
+  }
+  body.view-list .entry-tags a:hover {
+    background: var(--ink);
+    color: var(--white) !important;
+  }
+
+  /* Prevent footer.entry-footer from inheriting our .jjj-footer styles */
+  body.collection-current-news footer.entry-footer {
+    background: transparent;
+    color: var(--ink);
+    padding: 0;
+    margin: 0;
+  }
+
+  /* --- SINGLE POST — body.view-item --- */
+
+  /* Reading column */
+  body.view-item .blog-item,
+  body.view-item article.entry {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  /* Post title */
+  body.view-item h1.entry-title,
+  body.view-item h1.entry-title-item {
+    font-family: 'Big Shoulders Display', sans-serif;
+    font-weight: 900;
+    font-size: clamp(40px, 6vw, 72px);
+    line-height: 0.9;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    color: var(--ink) !important;
+    margin: 0;
+  }
+
+  /* Red underline below header block */
+  body.view-item header.entry-header {
+    border-bottom: 4px solid var(--red);
+    padding-bottom: 24px;
+    margin-bottom: 32px;
+  }
+
+  /* Date label (post) */
+  body.view-item .entry-dateline,
+  body.view-item .entry-dateline time {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--red);
+    margin-top: 12px;
+    display: block;
+  }
+
+  /* Hide author/byline on post too */
+  body.view-item .entry-byline,
+  body.view-item .entry-author {
+    display: none;
+  }
+
+  /* Post body typography */
+  body.view-item .entry-content,
+  body.view-item .entry-content.e-content {
+    font-family: 'Barlow', system-ui, sans-serif;
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--ink) !important;
+  }
+  body.view-item .entry-content p {
+    margin-bottom: 1.2em;
+    color: var(--ink) !important;
+  }
+
+  /* Links inside post body */
+  body.view-item .entry-content a,
+  body.view-item .entry-content a:link,
+  body.view-item .entry-content a:visited {
+    color: var(--red) !important;
+    text-decoration: underline !important;
+  }
+  body.view-item .entry-content a:hover {
+    color: var(--red-d) !important;
+  }
+
+  /* Blockquotes */
+  body.view-item .entry-content blockquote {
+    border-left: 4px solid var(--red);
+    padding-left: 20px;
+    margin: 1.2em 0;
+    font-style: italic;
+  }
+
+  /* Images in posts */
+  body.view-item .entry-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1.2em 0;
+  }
+
+  /* Headings inside post body */
+  body.view-item .entry-content h2,
+  body.view-item .entry-content h3 {
+    font-family: 'Big Shoulders Display', sans-serif;
+    font-weight: 900;
+    text-transform: uppercase;
+    line-height: 0.95;
+    color: var(--ink);
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+  }
+  body.view-item .entry-content h2 {
+    font-size: clamp(28px, 4vw, 40px);
+  }
+  body.view-item .entry-content h3 {
+    font-size: clamp(22px, 3vw, 32px);
+  }
+
+  /* Hide author profile block */
+  body.view-item .author-profile {
+    display: none;
+  }
+
+  /* Pagination */
+  body.collection-current-news nav.pagination {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 32px 20px;
+    border-top: 2px solid var(--ink);
+    border-bottom: 2px solid var(--ink);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  body.collection-current-news nav.pagination a,
+  body.collection-current-news nav.pagination a:link,
+  body.collection-current-news nav.pagination a:visited {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink) !important;
+    text-decoration: none !important;
+  }
+  body.collection-current-news nav.pagination a:hover {
+    color: var(--red) !important;
+  }
+
+  /* .p-comment — left functional, only reset font to match */
+  body.collection-current-news .p-comment {
+    font-family: 'Barlow', system-ui, sans-serif;
+    max-width: 720px;
+    margin: 32px auto 0;
+    padding: 0 20px;
+    color: var(--ink);
+  }
+
+  /* --- Blog !important audit ---
+     body.collection-current-news background/color on body/#siteWrapper/#page:
+       Bedford sets body bg rgb(23,23,23) in its stylesheet and #page
+       can inherit. !important needed to override.
+     body.collection-current-news #page padding-top:
+       .transparent-header #page { padding-top: 0 !important } in our
+       own Bedford overrides section zeros this globally. We need
+       !important to re-set it for the blog only.
+     h1.entry-title color:
+       Bedford sets heading colors via high-specificity ID selectors
+       (e.g. #page h1). !important needed.
+     h1.entry-title a color/text-decoration:
+       Bedford link styles have specificity from #page a. !important.
+     .entry-content color / .entry-content p color:
+       Bedford sets post text to rgba(0,0,0,0.5). !important needed.
+     .entry-more-link color/text-decoration:
+       Bedford link styles. !important.
+     .entry-tags a color/text-decoration:
+       Bedford link styles. !important.
+     .entry-content a color/text-decoration (post body links):
+       Bedford link styles. !important.
+     nav.pagination a color/text-decoration:
+       Bedford link styles. !important.
+     --- */
+
   @media (prefers-reduced-motion: reduce){
     *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;}
   }

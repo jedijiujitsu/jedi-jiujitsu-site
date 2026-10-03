@@ -105,7 +105,8 @@ I'd recommend Option A. See `docs/update-workflow.md` for the target script if i
 - **Reviews** — dashed placeholder for Google Reviews feed (Elfsight recommended).
 - **Visit** — red CTA section with phone, address, book-a-trial.
 - **Footer** — programs / visit / connect columns (merch removed).
-- **Nav** — sticky header, smooth-scroll to sections, Current News link that goes to `/current-news` with a fade transition, mobile hamburger.
+- **Nav** — sticky header, smooth-scroll to sections, Current News link that goes to `/current-news`, mobile hamburger.
+- **Blog styling** — `/current-news` index and single post pages. CSS is in `src/styles.css` under the "BLOG STYLING" comment section. Scoped to `body.collection-current-news` with `body.view-list` (index) and `body.view-item` (post). Does not touch homepage rules or anything prefixed `#jjj`.
 
 ---
 
