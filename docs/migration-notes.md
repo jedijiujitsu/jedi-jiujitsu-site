@@ -74,71 +74,38 @@ Swap to `grid-template-rows: 0fr / 1fr` transition (modern CSS, GPU-accelerated)
 
 ---
 
-## 3. Instagram feed
+## 3. Elfsight widgets (Instagram feed + Google Reviews)
 
-### The problem
+Both widgets use the **same loader script** (`https://elfsightcdn.com/platform.js`). The `loadElfsight()` helper in `scripts.js` injects it once — it checks for an existing `<script>` tag before adding one.
 
-The current `scripts.js` renders 10 placeholder tiles from a hardcoded `IG_TILES` array. In production, we need real posts from `@jedi.jiujitsu`. Three options were discussed earlier — the picks are:
+### App IDs
 
-- **Behold** ($0–$8/mo): recommended for the horizontal carousel look
-- **Elfsight** ($0–$10/mo): more layout options, higher polish
-- **Squarespace native IG block** (free): grid layout only, requires OAuth reconnects every few months
+| Widget          | Constant in scripts.js      | App ID                                 |
+|-----------------|-----------------------------|-----------------------------------------|
+| Google Reviews  | `ELFSIGHT_REVIEWS_ID`       | `09d422a8-bfdc-4066-97a3-e4ddaeda2cdb` |
+| Instagram Feed  | `ELFSIGHT_INSTAGRAM_ID`     | `12f19c05-8ebb-4ee4-8f0c-26d3bb349a81` |
 
-### The fix for Behold (recommended path)
+Setting either constant to `null` disables the widget and renders the hand-rolled placeholder instead (reviews carousel from `reviews.js`, or gradient placeholder tiles for Instagram).
 
-1. Sign up at [behold.so](https://behold.so), connect the `@jedi.jiujitsu` Instagram Business account.
-2. Choose the **Carousel** layout, pick square tiles, disable Behold branding if on paid plan.
-3. Copy the embed snippet Behold gives you. It looks like:
-   ```html
-   <script defer src="https://w.behold.so/widget.js" type="module"></script>
-   <behold-widget feed-id="XXXXXXXXX"></behold-widget>
-   ```
-4. In `src/homepage.html`, find the Instagram section:
-   ```html
-   <div class="ig-scroller" id="ig-scroller"></div>
-   ```
-5. Replace with:
-   ```html
-   <div class="ig-scroller-behold">
-     <script defer src="https://w.behold.so/widget.js" type="module"></script>
-     <behold-widget feed-id="XXXXXXXXX"></behold-widget>
-   </div>
-   ```
-6. In `scripts.js`, delete the entire `IG_TILES` array and the `.forEach` block that renders tiles.
-7. In `styles.css`, add:
-   ```css
-   .ig-scroller-behold { --behold-tile-size: 280px; }
-   /* Behold uses CSS custom properties for styling — check their docs for the current list */
-   ```
-8. Run `./build.sh` and re-paste to Squarespace.
+### How it works
+
+When a constant is set, `scripts.js`:
+1. Replaces the scroller container's `innerHTML` with `<div class="elfsight-app-{ID}" data-elfsight-app-lazy></div>`
+2. Calls `loadElfsight()` to inject `platform.js` (once)
+3. Hides our custom arrow nav (Elfsight supplies its own controls)
 
 ### Watch out for CSP
 
-Squarespace's default Content Security Policy allows most third-party embeds, but if Behold's script fails to load in production, check:
+Squarespace's default Content Security Policy allows most third-party embeds, but if `platform.js` fails to load in production, check:
 
 - Browser console for CSP violations
 - Squarespace `Settings → Advanced → Security` for any restrictive rules
 
-If blocked, the workaround is to load Behold's widget via `header-injection.html` instead (which has fewer restrictions than Code Block embeds). Move the `<script>` tag there, keep only the `<behold-widget>` element in the homepage Code Block.
+If blocked, move the `<script src="https://elfsightcdn.com/platform.js" defer></script>` tag to `squarespace/header-injection.html` (which has fewer restrictions than Code Block embeds). The widget `<div>` elements stay in the Code Block — only the loader script moves.
 
-### Fallback if Behold isn't approved
+### Previous approach (Behold) — superseded
 
-Use Squarespace's native IG block. It renders as a grid, not a carousel, so it won't match ATT's look — but it's free and requires no third-party sign-up. Add it as a separate Squarespace section below the Code Block, then style it with:
-
-```css
-.sqs-block-instagram { /* Squarespace's native class */
-  display: flex !important;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  gap: 8px;
-}
-.sqs-block-instagram .sqs-gallery-design-grid-slide {
-  flex: 0 0 280px;
-  scroll-snap-align: start;
-}
-```
-
-Not a perfect carousel (native block doesn't have arrows, just scroll), but it's a working fallback that costs nothing.
+The original plan used Behold (`w.behold.so/widget.js`) for Instagram. This was replaced with Elfsight before either widget went live. All Behold code (`BEHOLD_FEED_ID`, `<behold-widget>`, Behold script loading) has been removed from `scripts.js`. If Behold is ever revisited, check their current embed docs — the old integration is no longer in the codebase.
 
 ---
 
@@ -146,7 +113,7 @@ Not a perfect carousel (native block doesn't have arrows, just scroll), but it's
 
 - **Header, footer, marquee, hero, stats, about, programs list rendering** — all "just work" as pasted. No Squarespace conflicts.
 - **Smooth-scroll nav** — Squarespace's Custom CSS respects `scroll-behavior: smooth` on `html`. No workaround needed.
-- **Google Reviews placeholder** — same pattern as the Instagram fix (drop in Elfsight's embed, delete our placeholder markup).
+- **Google Reviews** — handled by Elfsight widget, see section 3 above.
 - **Merch links in footer** — removed from the site entirely. The Merch footer column has been cut; may return someday but is not currently linked from the homepage.
 
 If something else breaks after paste, first suspect is z-index or a Squarespace container adding padding/margin. Second suspect is font loading order. Third is CSP.

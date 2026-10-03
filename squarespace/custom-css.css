@@ -321,6 +321,15 @@
   .reviews-nav-btn:hover:not(:disabled){background:var(--ink);color:var(--white);}
   .reviews-nav-btn:disabled{opacity:0.3;cursor:not-allowed;}
 
+  /* =============================================================
+     ELFSIGHT WIDGET OVERRIDES — Google Reviews + Instagram feed.
+     Elfsight ships its own CSS; these rules nudge it toward our
+     design system. Elfsight's internal class names can change
+     between widget versions — inspect the rendered DOM and update
+     these selectors if a widget update breaks the overrides.
+     ============================================================= */
+  [class^="elfsight-app-"]{width:100%;}
+
   .visit{background:var(--red);color:var(--white);border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);position:relative;}
   .visit .section-tag{color:var(--white);}
   .visit .section-tag::before{background:var(--white);}

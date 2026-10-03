@@ -140,3 +140,5 @@ Never edit files in `/squarespace/` directly. They are generated from or based o
 - **`footer-block.html`** — hand-maintained (change when footer content changes)
 
 For small changes (one schedule time, one bio update), only re-paste the file that changed.
+
+**Elfsight widget IDs** (`ELFSIGHT_REVIEWS_ID`, `ELFSIGHT_INSTAGRAM_ID`) are baked into `homepage-code-block.html` at build time. Changing a widget ID in `src/scripts.js` requires running `.\build.ps1` and re-pasting the Code Block.

@@ -184,7 +184,7 @@
     <div class="ig-scroller-wrap">
       <div class="ig-scroller" id="ig-scroller"></div>
     </div>
-    <p class="ig-placeholder-note">/Placeholder tiles — production version pulls live posts from @jedi.jiujitsu via Squarespace native IG block or Behold/Elfsight widget</p>
+    <p class="ig-placeholder-note">/Placeholder tiles — production version pulls live posts from @jedi.jiujitsu via Elfsight widget</p>
   </div>
 </section>
 
@@ -209,11 +209,10 @@
         </div>
       </div>
     </div>
-    <!-- REVIEWS CAROUSEL: cards render from src/data/reviews.js.
-         Fill in real quote text there before going live — any card whose
-         quote starts with "[PASTE" shows a red-dashed placeholder instead.
-         If Jamie prefers auto-updating reviews, an Elfsight embed can replace
-         this entire carousel. See docs/migration-notes.md for that path. -->
+    <!-- REVIEWS: when ELFSIGHT_REVIEWS_ID is set in scripts.js, the Elfsight
+         Google Reviews widget renders here. When null, falls back to the
+         hand-rolled carousel from reviews.js (placeholder cards until real
+         quotes are pasted). -->
     <div class="reviews-scroller-wrap">
       <div class="reviews-scroller" id="reviews-scroller"></div>
     </div>

@@ -5,16 +5,29 @@
 //   - Schedule rendering + filters + day expand + class modal
 //   - Program rendering + modal (with placeholder handling)
 //   - About modal
-//   - Instagram carousel (BEHOLD_FEED_ID=null: placeholder tiles; string: Behold widget)
-//   - Reviews carousel (REVIEWS data; placeholder cards while quotes are unconfirmed)
+//   - Instagram feed (Elfsight widget or placeholder tiles)
+//   - Reviews (Elfsight widget or hand-rolled carousel from reviews.js)
 //   - Cross-page fade transition
 //   - Mobile menu toggle
 
 // ---------------------------------------------------------------------------
-// CONFIG — set BEHOLD_FEED_ID once Jamie connects @jedi.jiujitsu at behold.so
-// While null, the existing placeholder tiles render instead.
+// CONFIG — Elfsight widget IDs. Set to null to show placeholders instead.
+// Both widgets share a single platform.js loader (see loadElfsight below).
 // ---------------------------------------------------------------------------
-const BEHOLD_FEED_ID = null;
+const ELFSIGHT_REVIEWS_ID   = "09d422a8-bfdc-4066-97a3-e4ddaeda2cdb";
+const ELFSIGHT_INSTAGRAM_ID = "12f19c05-8ebb-4ee4-8f0c-26d3bb349a81";
+
+// Shared Elfsight loader — injects platform.js exactly once regardless of
+// how many widgets are on the page. Checks for an existing script tag first
+// so the build can safely inline this alongside a header-injection fallback.
+function loadElfsight() {
+  const PLATFORM_SRC = 'https://elfsightcdn.com/platform.js';
+  if (document.querySelector('script[src="' + PLATFORM_SRC + '"]')) return;
+  const s = document.createElement('script');
+  s.src = PLATFORM_SRC;
+  s.defer = true;
+  document.head.appendChild(s);
+}
 
 // Base URL for images. Empty string = relative paths (local preview).
 // Set to the GitHub Pages URL for the Squarespace build.
@@ -399,26 +412,19 @@ backdrop.addEventListener('click', (e) => {
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
 
 /* =========================================================
-   INSTAGRAM — controlled by BEHOLD_FEED_ID at top of file.
-   • null (default): renders placeholder tiles + arrow nav exactly as before
-   • string: injects <behold-widget> into the scroller wrap + loads script;
-     hides our arrow nav (Behold has its own controls).
+   INSTAGRAM — controlled by ELFSIGHT_INSTAGRAM_ID at top of file.
+   • null: renders placeholder tiles + arrow nav exactly as before
+   • string: injects Elfsight widget div into the scroller wrap + loads
+     platform.js; hides our arrow nav (Elfsight has its own controls).
    The @jedi.jiujitsu badge and section header render either way.
    ========================================================= */
-if (BEHOLD_FEED_ID) {
-  // Behold widget mode — replace scroller with the custom element
+if (ELFSIGHT_INSTAGRAM_ID) {
+  // Elfsight widget mode — replace scroller with the widget div
   const igScrollerWrap = document.querySelector('.ig-scroller-wrap');
-  igScrollerWrap.innerHTML = `<behold-widget feed-id="${BEHOLD_FEED_ID}"></behold-widget>`;
+  igScrollerWrap.innerHTML = `<div class="elfsight-app-${ELFSIGHT_INSTAGRAM_ID}" data-elfsight-app-lazy></div>`;
+  loadElfsight();
 
-  // Dynamically load Behold's widget script as a module.
-  // CSP fallback: if Squarespace blocks this load, move the <script> tag to
-  // squarespace/header-injection.html instead — see docs/migration-notes.md.
-  const beholdScript = document.createElement('script');
-  beholdScript.src = 'https://w.behold.so/widget.js';
-  beholdScript.type = 'module';
-  document.head.appendChild(beholdScript);
-
-  // Behold renders its own controls; hide our arrow nav.
+  // Elfsight renders its own controls; hide our arrow nav + placeholder note.
   const igNavEl = document.querySelector('.ig-nav');
   if (igNavEl) igNavEl.style.display = 'none';
   const igNote = document.querySelector('.ig-placeholder-note');
@@ -483,53 +489,69 @@ if (BEHOLD_FEED_ID) {
 }
 
 /* =========================================================
-   REVIEWS — horizontal-scroll carousel from REVIEWS data.
-   Cards whose quote starts with "[PASTE" render a red-dashed
-   placeholder instead of the quote — impossible to ship by accident.
+   REVIEWS — controlled by ELFSIGHT_REVIEWS_ID at top of file.
+   • string: injects Elfsight Google Reviews widget, hides our
+     hand-rolled carousel and nav arrows.
+   • null: falls back to horizontal-scroll carousel from REVIEWS
+     data. Cards whose quote starts with "[PASTE" render a
+     red-dashed placeholder instead of the quote.
    ========================================================= */
-const reviewsScroller = document.getElementById('reviews-scroller');
-if (reviewsScroller) {
-  const starPath = 'M12 2 14.9 8.6 22 9.3l-5.4 4.7 1.6 7L12 17.3 5.8 21l1.6-7L2 9.3l7.1-.7Z';
-  REVIEWS.forEach(r => {
-    const isPlaceholder = r.quote.startsWith('[PASTE');
-    const card = document.createElement('div');
-    card.className = 'review-card' + (isPlaceholder ? ' placeholder' : '');
-    const stars = Array(r.stars).fill(null).map(() =>
-      `<svg class="review-star" viewBox="0 0 24 24"><path d="${starPath}"/></svg>`
-    ).join('');
-    card.innerHTML = `
-      ${isPlaceholder
-        ? `<div class="review-placeholder-text">/Needs real review text — paste from Google Maps before publishing</div>`
-        : `<div class="review-quote">${r.quote}</div>`
-      }
-      <div class="review-footer">
-        <div class="review-stars">${stars}</div>
-        <div class="review-name">${r.name}</div>
-        <div class="review-source">${r.source === 'google' ? 'Google Review' : r.source}</div>
-      </div>`;
-    reviewsScroller.appendChild(card);
-  });
+if (ELFSIGHT_REVIEWS_ID) {
+  // Elfsight widget mode — replace scroller with the widget div
+  const reviewsWrap = document.querySelector('.reviews-scroller-wrap');
+  if (reviewsWrap) {
+    reviewsWrap.innerHTML = `<div class="elfsight-app-${ELFSIGHT_REVIEWS_ID}" data-elfsight-app-lazy></div>`;
+    loadElfsight();
 
-  // Arrow nav — mirrors IG scroller pattern
-  const reviewsPrev = document.getElementById('reviews-prev');
-  const reviewsNext = document.getElementById('reviews-next');
-  function reviewsScrollBy(dir) {
-    const card = reviewsScroller.querySelector('.review-card');
-    if (!card) return;
-    const step = card.offsetWidth + 8;
-    reviewsScroller.scrollBy({ left: step * dir * 2, behavior: 'smooth' });
+    // Hide our arrow nav — Elfsight supplies its own controls.
+    const reviewsNavEl = document.querySelector('.reviews-nav');
+    if (reviewsNavEl) reviewsNavEl.style.display = 'none';
   }
-  reviewsPrev.addEventListener('click', () => reviewsScrollBy(-1));
-  reviewsNext.addEventListener('click', () => reviewsScrollBy(1));
+} else {
+  const reviewsScroller = document.getElementById('reviews-scroller');
+  if (reviewsScroller) {
+    const starPath = 'M12 2 14.9 8.6 22 9.3l-5.4 4.7 1.6 7L12 17.3 5.8 21l1.6-7L2 9.3l7.1-.7Z';
+    REVIEWS.forEach(r => {
+      const isPlaceholder = r.quote.startsWith('[PASTE');
+      const card = document.createElement('div');
+      card.className = 'review-card' + (isPlaceholder ? ' placeholder' : '');
+      const stars = Array(r.stars).fill(null).map(() =>
+        `<svg class="review-star" viewBox="0 0 24 24"><path d="${starPath}"/></svg>`
+      ).join('');
+      card.innerHTML = `
+        ${isPlaceholder
+          ? `<div class="review-placeholder-text">/Needs real review text — paste from Google Maps before publishing</div>`
+          : `<div class="review-quote">${r.quote}</div>`
+        }
+        <div class="review-footer">
+          <div class="review-stars">${stars}</div>
+          <div class="review-name">${r.name}</div>
+          <div class="review-source">${r.source === 'google' ? 'Google Review' : r.source}</div>
+        </div>`;
+      reviewsScroller.appendChild(card);
+    });
 
-  function updateReviewsNav() {
-    const max = reviewsScroller.scrollWidth - reviewsScroller.clientWidth;
-    reviewsPrev.disabled = reviewsScroller.scrollLeft <= 4;
-    reviewsNext.disabled = reviewsScroller.scrollLeft >= max - 4;
+    // Arrow nav — mirrors IG scroller pattern
+    const reviewsPrev = document.getElementById('reviews-prev');
+    const reviewsNext = document.getElementById('reviews-next');
+    function reviewsScrollBy(dir) {
+      const card = reviewsScroller.querySelector('.review-card');
+      if (!card) return;
+      const step = card.offsetWidth + 8;
+      reviewsScroller.scrollBy({ left: step * dir * 2, behavior: 'smooth' });
+    }
+    reviewsPrev.addEventListener('click', () => reviewsScrollBy(-1));
+    reviewsNext.addEventListener('click', () => reviewsScrollBy(1));
+
+    function updateReviewsNav() {
+      const max = reviewsScroller.scrollWidth - reviewsScroller.clientWidth;
+      reviewsPrev.disabled = reviewsScroller.scrollLeft <= 4;
+      reviewsNext.disabled = reviewsScroller.scrollLeft >= max - 4;
+    }
+    reviewsScroller.addEventListener('scroll', updateReviewsNav);
+    window.addEventListener('resize', updateReviewsNav);
+    updateReviewsNav();
   }
-  reviewsScroller.addEventListener('scroll', updateReviewsNav);
-  window.addEventListener('resize', updateReviewsNav);
-  updateReviewsNav();
 }
 
 // Mobile menu toggle — guarded because on Squarespace the nav is injected
