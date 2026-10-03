@@ -87,7 +87,8 @@ I'd recommend Option A. See `docs/update-workflow.md` for the target script if i
 2. **Code Blocks execute JavaScript** but can't import external files. Everything must be inlined in `homepage-code-block.html`.
 3. **Squarespace wraps Code Blocks in its own container div.** Our CSS is defensively scoped to specific classes (`.hero`, `.coach`, `.sched-day-card`, etc.) — don't add rules on `body`, `html`, or generic tags without prefixing.
 4. **Squarespace 7.0 does not have a drag-to-resize content editor.** Code Block width is governed by the section's column layout in the classic editor. If the section is changed to a two-column layout, our fixed-width `.wrap` will overflow. This is a Squarespace issue, not ours.
-5. **Auto-formatting.** Squarespace sometimes re-encodes special characters (curly quotes, em-dashes). If output looks wrong, check the source in the Code Block editor for `’` → `'` substitutions.
+5. **Auto-formatting.** Squarespace sometimes re-encodes special characters (curly quotes, em-dashes). If output looks wrong, check the source in the Code Block editor for `’` → `’` substitutions.
+6. **LESS compiler — never use `/` in CSS shorthands.** Squarespace 7.0 compiles Custom CSS as LESS. LESS treats `/` as division and silently breaks the rule. Use longhand properties (`background-position` + `background-size` instead of `position / size` shorthand). For `aspect-ratio`, use decimal values (`1.77778` not `16/9`).
 
 ---
 
@@ -150,6 +151,7 @@ Confirmed from a live DOM dump of the site. These are facts, not inferences.
   - Nav links: `rgba(255, 255, 255, 0.7)` white on dark
   - Post body text: `rgba(0, 0, 0, 0.5)` low-contrast on white
 - **CRITICAL — transparent header:** Body has class `transparent-header`. Nav link text is white. Any page we make white-background will render the nav invisible until the nav is restyled. **Nav restyling is a prerequisite for blog/page styling, not a follow-up task.**
+- **CRITICAL — LESS compiler:** Squarespace 7.0 compiles Custom CSS as LESS. LESS treats `/` as division and silently breaks rules. Never use `/` in CSS shorthand values. Write `background-position` + `background-size` as separate properties (not `center 25% / cover`). Write `aspect-ratio` as a decimal (`1.77778` not `16/9`). This is confirmed broken on the live site.
 
 ---
 
