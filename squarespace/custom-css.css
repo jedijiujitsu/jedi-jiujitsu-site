@@ -358,8 +358,8 @@
   .btn-white{display:inline-flex;align-items:center;gap:14px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:16px;text-transform:uppercase;letter-spacing:0.12em;padding:20px 32px;background:var(--white);color:var(--red);margin-top:32px;transition:background .2s ease;}
   .btn-white:hover{background:var(--ink);color:var(--white);}
 
-  footer{background:var(--ink);color:var(--white);}
-  .footer-inner{padding:64px 0 32px;}
+  .jjj-footer{background:var(--ink);color:var(--white);}
+  .jjj-footer .footer-inner{padding:64px 0 32px;}
   .footer-mark{font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:clamp(80px,14vw,180px);line-height:0.85;text-transform:uppercase;letter-spacing:-0.01em;}
   .footer-mark .red{color:var(--red);}
   .footer-tag{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:0.15em;opacity:0.7;margin-top:16px;}
@@ -408,11 +408,70 @@
      which is sufficient since #header (z-index: varies by Bedford) is
      hidden. If a conflict arises, bump this. */
 
-  /* Bedford's footer: our footer-block.html is placed inside #footerBlocks.
-     The enclosing #footer has its own padding/background. Override to
-     match our design. */
-  #footer { background: var(--ink, #0A0A0A); }
-  #footer .footer-inner { padding: 0; }
+  /* Bedford's footer chrome — hide everything except our .jjj-footer.
+     #preFooter: grey band with "Please visit our YouTube Channel" + social icons.
+     #siteInfo: address/phone/email (duplicated by our footer).
+     .back-to-top-nav: Bedford's scroll-to-top link.
+     !important needed: Bedford sets display via inline styles on some of these. */
+  #preFooter { display: none !important; }
+  #siteInfo { display: none !important; }
+  .back-to-top-nav { display: none !important; }
+
+  /* Neutralize Bedford's footer containers so .jjj-footer sits flush
+     and spans full viewport width. #footer applies its own dark bg and
+     padding; #footerBlocks and .sqs-block wrappers add padding/margins.
+     !important needed: Bedford's stylesheet sets padding on .footer-inner
+     and .sqs-block-content with high specificity. */
+  #footer { background: var(--ink, #0A0A0A); padding: 0 !important; margin: 0; }
+  #footer > .footer-inner { padding: 0 !important; margin: 0; max-width: none; }
+  #footerBlocks { padding: 0 !important; margin: 0; }
+  #footerBlocks .sqs-block { padding: 0 !important; margin: 0; }
+  #footerBlocks .sqs-block-content { padding: 0 !important; margin: 0; }
+
+  /* =============================================================
+     BEDFORD HOMEPAGE FULL-BLEED — scoped to body.homepage so the
+     blog index, blog posts, and other pages are unaffected.
+
+     Bedford wraps the Code Block in a chain of containers that
+     constrain width and add padding:
+       .content.page-content  → max-width:1080px, padding:34px
+       .sqs-block-code        → padding:17px
+       .row.sqs-row           → margin:-17px (partial offset)
+       .index-section-wrapper → may add vertical padding
+       .index-section         → may add vertical padding
+
+     We zero all of these so our sections span the full viewport.
+     Our own .wrap (max-width:1440px) handles content centering.
+     !important needed: Bedford's stylesheet sets these properties
+     with specificity we cannot beat without it.
+     ============================================================= */
+  body.homepage .index-section .content.page-content {
+    max-width: none !important;
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  body.homepage .sqs-block-code {
+    padding: 0 !important;
+  }
+  body.homepage .sqs-block-code .sqs-block-content {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  body.homepage .content.page-content .row.sqs-row {
+    margin: 0 !important;
+  }
+  body.homepage #page {
+    overflow-x: hidden;
+  }
+  body.homepage .index-section-wrapper {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  body.homepage .index-section {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
 
   /* =============================================================
      EXPECTED !important USAGE (flagged for review)
@@ -428,6 +487,22 @@
        - .transparent-header #page { padding-top: 0 !important }
            Bedford calculates header height and sets padding-top as
            an inline style via JS. !important is required to override.
+       - #preFooter, #siteInfo, .back-to-top-nav { display: none !important }
+           Bedford's footer chrome — inline styles or high-specificity
+           rules require !important to guarantee hiding.
+       - #footer, #footer > .footer-inner, #footerBlocks,
+         #footerBlocks .sqs-block, #footerBlocks .sqs-block-content
+         { padding: 0 !important }
+           Bedford's footer containers add padding/margins via its
+           stylesheet with specificity we can't beat without !important.
+           Needed so .jjj-footer renders full-width and flush.
+       - body.homepage .content.page-content, .sqs-block-code,
+         .sqs-block-content, .content.page-content .row.sqs-row,
+         .index-section-wrapper, .index-section
+         { padding/margin/max-width/width: 0/none/100% }
+           Bedford's page containers constrain width to 1080px with
+           34px padding. !important needed on all properties because
+           Bedford's stylesheet rules have equal or higher specificity.
      No other rules in this file should need !important. If you find
      yourself adding it elsewhere, check the DOM for inline styles first.
      ============================================================= */
