@@ -28,13 +28,20 @@ Three files. Three places in Squarespace. Copy-paste in this order.
 
 **What to do:**
 1. Open `header-injection.html`
-2. Copy everything **between** (not including) the outer HTML comments
-3. Paste into the HEADER field
+2. Copy everything **between** (not including) the outer HTML comments at the very top and bottom
+3. **Replace the entire contents** of the HEADER field with the copied code
 4. Click Save
 
+**IMPORTANT — this file contains third-party tracking code:**
+- **Google Analytics** (`UA-133381493-1`) — Jamie's site analytics
+- **Tracking pixel** (`sitetracking.xyz`) — ad/campaign tracking
+- **Google Fonts** — our custom font stack
+
+This repo file is the **single source of truth** for what belongs in the Header Code Injection field. Pasting only the fonts (or any partial version) will silently break analytics and ad tracking. If Jamie adds new tracking snippets in Squarespace, they must also be added to this file so the next paste doesn't overwrite them.
+
 **Notes:**
-- This loads Google Fonts globally so headlines, body text, and labels render correctly on every page.
 - Do NOT paste into the FOOTER field — fonts must load before content or you'll see a flash of unstyled text (FOUT).
+- Do NOT modify, reformat, or "clean up" the GA or pixel code. Copy it verbatim.
 
 ---
 

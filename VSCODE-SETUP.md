@@ -22,7 +22,7 @@ Open `src/homepage.html` in the editor, then either:
 - Click **Go Live** in the status bar (bottom right), or
 - Right-click the file → **Open with Live Server**
 
-The site opens at `http://localhost:8000/homepage.html` and **auto-reloads on every save**.
+The site opens at `http://localhost:6666/homepage.html` and **auto-reloads on every save**.
 
 That's it. You're set up.
 
