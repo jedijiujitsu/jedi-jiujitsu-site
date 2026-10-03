@@ -7,7 +7,6 @@
 //   - About modal
 //   - Instagram feed (Elfsight widget or placeholder tiles)
 //   - Reviews (Elfsight widget or hand-rolled carousel from reviews.js)
-//   - Cross-page fade transition
 //   - Mobile menu toggle
 
 // ---------------------------------------------------------------------------
@@ -219,26 +218,6 @@ if (aboutBtn) {
     openModal();
   });
 }
-
-/* =========================================================
-   Cross-page fade transition (for blog / current news link)
-   ========================================================= */
-document.querySelectorAll('a[href]').forEach(a => {
-  const href = a.getAttribute('href');
-  if (!href) return;
-  // Only intercept same-origin links that are NOT hash links or the trial-class CTAs
-  const isExternal = /^https?:\/\//i.test(href) && !href.includes('jjjtulsajiu-jitsu.com');
-  const isHash = href.startsWith('#') || href.startsWith('tel:') || href.startsWith('mailto:');
-  if (isExternal || isHash) return;
-  // Open in same tab with fade-out transition
-  a.addEventListener('click', (e) => {
-    // Skip if user is opening in new tab (cmd/ctrl click, middle click)
-    if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1 || a.target === '_blank') return;
-    e.preventDefault();
-    document.body.classList.add('page-fading');
-    setTimeout(() => { window.location.href = href; }, 320);
-  });
-});
 
 /* Modal */
 const backdrop = document.getElementById('modal-backdrop');

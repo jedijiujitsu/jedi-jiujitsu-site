@@ -151,6 +151,7 @@ Confirmed from a live DOM dump of the site. These are facts, not inferences.
   - Nav links: `rgba(255, 255, 255, 0.7)` white on dark
   - Post body text: `rgba(0, 0, 0, 0.5)` low-contrast on white
 - **CRITICAL — transparent header:** Body has class `transparent-header`. Nav link text is white. Any page we make white-background will render the nav invisible until the nav is restyled. **Nav restyling is a prerequisite for blog/page styling, not a follow-up task.**
+- **Do not intercept internal link clicks with JS.** Nav links are root-relative (`/#programs`, `/#schedule`, etc.) and same-page hash links do not reload the page. A previous fade-transition handler (`page-fading` class + `setTimeout` → `window.location.href`) caused the page to go white on hash navigation because the browser never reloaded to restore opacity. Removed entirely — do not reintroduce.
 - **CRITICAL — LESS compiler:** Squarespace 7.0 compiles Custom CSS as LESS. LESS treats `/` as division and silently breaks rules. Never use `/` in CSS shorthand values. Write `background-position` + `background-size` as separate properties (not `center 25% / cover`). Write `aspect-ratio` as a decimal (`1.77778` not `16/9`). This is confirmed broken on the live site.
 
 ---

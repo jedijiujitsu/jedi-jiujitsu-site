@@ -14,16 +14,13 @@
   html,body{background:var(--white);color:var(--ink);overflow-x:hidden;}
   body{font-family:'Barlow',system-ui,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased;}
   /* Offset for fixed nav so anchored sections aren't clipped */
-  #jjj section[id], #jjj #top, #jjj #trial { scroll-margin-top: 86px; }
-  @media(min-width:900px){#jjj section[id],#jjj #top,#jjj #trial{scroll-margin-top:118px;}}
+  /* Nav height: logo (64 mobile / 96 desktop) + 20px padding + 2px border + 8px breathing room */
+  #jjj section[id], #jjj #top, #jjj #trial { scroll-margin-top: 94px; }
+  @media(min-width:900px){#jjj section[id],#jjj #top,#jjj #trial{scroll-margin-top:126px;}}
   body.modal-open{overflow:hidden;}
   a{color:inherit;text-decoration:none;}
   ul{list-style:none;}
   button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;}
-
-  /* Cross-page fade transition (for Current News blog link) */
-  body{opacity:1;transition:opacity .35s ease;}
-  body.page-fading{opacity:0;}
 
   .wrap{max-width:1440px;margin:0 auto;padding:0 20px;}
   @media(min-width:768px){.wrap{padding:0 40px;}}

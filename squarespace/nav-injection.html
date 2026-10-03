@@ -77,25 +77,6 @@
     }
   }
 
-  // Cross-page fade transition for nav links
-  var navHeader = document.getElementById('nav');
-  if (navHeader) {
-    var navLinks = navHeader.querySelectorAll('a[href]');
-    for (var j = 0; j < navLinks.length; j++) {
-      (function(a) {
-        var href = a.getAttribute('href');
-        if (!href) return;
-        var isExternal = /^https?:\/\//i.test(href) && href.indexOf('jjjtulsajiu-jitsu.com') === -1;
-        var isHash = href.charAt(0) === '#' || href.indexOf('tel:') === 0 || href.indexOf('mailto:') === 0;
-        if (isExternal || isHash) return;
-        a.addEventListener('click', function(e) {
-          if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1 || a.target === '_blank') return;
-          e.preventDefault();
-          document.body.classList.add('page-fading');
-          setTimeout(function() { window.location.href = href; }, 320);
-        });
-      })(navLinks[j]);
-    }
-  }
+
 })();
 </script>
