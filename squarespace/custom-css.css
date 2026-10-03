@@ -350,6 +350,67 @@
   .footer-bottom{margin-top:48px;padding-top:24px;border-top:1px solid var(--line-i);display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;}
   .footer-bottom span{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:0.12em;opacity:0.5;}
 
+  /* =============================================================
+     BEDFORD OVERRIDES — hide Squarespace's native nav and footer
+     chrome so our custom-injected nav and footer render instead.
+     These selectors target Bedford 7.0 (templateId 52e96934...)
+     and have no effect in local preview.
+     ============================================================= */
+
+  /* Hide Bedford's entire #header block.
+     Rationale: #header contains .title-logo-wrapper, .desktop-nav-wrapper,
+     .header-controls, and .mobile-nav-toggle-box — ALL of which we replace
+     with our own <header class="nav">. Hiding #header entirely is cleaner
+     and safer than selectively hiding children, since any leftover child
+     (e.g. an empty logo wrapper) can cause layout gaps.
+     !important is needed because Bedford sets inline display values on
+     some header children and transparent-header mode adds inline opacity. */
+  #header { display: none !important; }
+
+  /* Hide Bedford's mobile nav overlay (separate from #header) */
+  nav#mobileNavigation { display: none !important; }
+
+  /* Belt-and-suspenders: hide the nav wrapper inside #header in case
+     a Bedford update changes #header's inline styles */
+  #mainNavWrapper,
+  #mainNavigation { display: none !important; }
+
+  /* Bedford's transparent-header body class adds padding-top to #page
+     to account for the fixed header height. Since we hide #header and
+     use our own fixed nav, remove that padding so content doesn't
+     start with a mysterious gap. */
+  .transparent-header #page { padding-top: 0 !important; }
+
+  /* Our injected nav renders at the bottom of the DOM (via Footer Code
+     Injection) but position:fixed pins it to the top. Ensure z-index
+     beats any remaining Bedford chrome. Our .nav already sets z-index:50
+     which is sufficient since #header (z-index: varies by Bedford) is
+     hidden. If a conflict arises, bump this. */
+
+  /* Bedford's footer: our footer-block.html is placed inside #footerBlocks.
+     The enclosing #footer has its own padding/background. Override to
+     match our design. */
+  #footer { background: var(--ink, #0A0A0A); }
+  #footer .footer-inner { padding: 0; }
+
+  /* =============================================================
+     EXPECTED !important USAGE (flagged for review)
+     =============================================================
+     The following rules use !important and why:
+       - #header { display: none !important }
+           Bedford injects an inline <style> block inside #headerNav
+           that can set display values. !important is required to win.
+       - nav#mobileNavigation { display: none !important }
+           Same reason — Bedford's mobile nav has inline style control.
+       - #mainNavWrapper, #mainNavigation { display: none !important }
+           Defensive — same inline-style concern.
+       - .transparent-header #page { padding-top: 0 !important }
+           Bedford calculates header height and sets padding-top as
+           an inline style via JS. !important is required to override.
+     No other rules in this file should need !important. If you find
+     yourself adding it elsewhere, check the DOM for inline styles first.
+     ============================================================= */
+
   @media (prefers-reduced-motion: reduce){
     *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;}
   }

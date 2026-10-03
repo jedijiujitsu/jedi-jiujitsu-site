@@ -30,6 +30,10 @@ if ($homepage -match "(?s)<body>(.*?)</body>") {
     throw "ERROR: <body> tag not found in src\homepage.html"
 }
 
+# Strip sections between SQUARESPACE-STRIP markers (nav and footer)
+# These are delivered separately via Code Injection and footer block.
+$body = $body -replace '(?s)<!-- SQUARESPACE-STRIP-START: \w+ -->.*?<!-- SQUARESPACE-STRIP-END: \w+ -->\s*', ''
+
 # Strip external <script src="..."> tags — they'll be inlined below
 $body = $body -replace '<script src="[^"]+"></script>\s*', ''
 # Strip external <link rel="stylesheet"> tags — CSS lives in Custom CSS panel
@@ -56,6 +60,8 @@ $header = @"
   Companion files (must also be installed):
     - squarespace/custom-css.css       -> Design -> Custom CSS
     - squarespace/header-injection.html -> Settings -> Code Injection -> Header
+    - squarespace/nav-injection.html   -> Settings -> Code Injection -> Footer
+    - squarespace/footer-block.html    -> Footer -> editable HTML block
   ============================================================
 -->
 

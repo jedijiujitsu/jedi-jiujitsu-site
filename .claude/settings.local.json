@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cd \"C:\\\\Users\\\\Ibaraki\\\\Desktop\\\\Jedi Website\\\\jedi-jiujitsu-site-vscode\\\\jedi-jiujitsu-site\" && powershell -ExecutionPolicy Bypass -File build.ps1)"
+    ]
+  }
+}

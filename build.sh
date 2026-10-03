@@ -24,6 +24,10 @@ if not body_match:
     raise SystemExit("ERROR: <body> not found in src/homepage.html")
 body = body_match.group(1).strip()
 
+# Strip sections between SQUARESPACE-STRIP markers (nav and footer).
+# These are delivered separately via Code Injection and footer block.
+body = re.sub(r'<!-- SQUARESPACE-STRIP-START: \w+ -->[\s\S]*?<!-- SQUARESPACE-STRIP-END: \w+ -->\s*', '', body)
+
 # Strip external <script src="..."> refs — we'll inline them below
 body = re.sub(r'<script src="[^"]+"></script>\s*', '', body)
 # Also strip external <link rel="stylesheet"> refs — CSS lives in Custom CSS panel
@@ -55,6 +59,8 @@ header = """<!--
   Companion files (must also be installed):
     - squarespace/custom-css.css       → Design → Custom CSS
     - squarespace/header-injection.html → Settings → Code Injection → Header
+    - squarespace/nav-injection.html   → Settings → Code Injection → Footer
+    - squarespace/footer-block.html    → Footer → editable HTML block
   ============================================================
 -->
 

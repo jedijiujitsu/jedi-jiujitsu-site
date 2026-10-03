@@ -528,9 +528,14 @@ if (reviewsScroller) {
   updateReviewsNav();
 }
 
+// Mobile menu toggle — guarded because on Squarespace the nav is injected
+// separately via Code Injection and these elements won't be in the Code Block.
 const toggle = document.getElementById('menu-toggle');
 const menu = document.getElementById('mobile-menu');
-toggle.addEventListener('click', () => menu.classList.toggle('open'));
-menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => menu.classList.remove('open')));
-document.getElementById('year').textContent = new Date().getFullYear();
+if (toggle && menu) {
+  toggle.addEventListener('click', () => menu.classList.toggle('open'));
+  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => menu.classList.remove('open')));
+}
+const yearEl = document.getElementById('year');
+if (yearEl) yearEl.textContent = new Date().getFullYear();
 document.getElementById('instructor-count').textContent = COACHES.length;
