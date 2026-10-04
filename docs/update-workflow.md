@@ -107,6 +107,16 @@ Total time: 2 minutes.
 
 The red-dashed placeholder block will disappear automatically and the real copy will render in its place.
 
+### "Schedule changed"
+
+Two things must be updated together:
+
+1. Edit `src/data/schedule.js` with the new class times / names / coaches
+2. Replace `src/images/schedule/weekly-schedule.jpg` with the updated flyer (same filename)
+3. In `src/scripts.js`, bump `SCHEDULE_FLYER_VERSION` (e.g. `"1"` → `"2"`) so browsers don't show the cached old copy
+4. Commit, push, wait for GitHub Pages to deploy the new image
+5. Run `.\build.ps1` and re-paste `squarespace/homepage-code-block.html` into the Squarespace Code Block
+
 ### "Fill in a real review quote"
 
 The Reviews section now renders from `src/data/reviews.js`. Any card whose quote starts with `[PASTE` shows a red-dashed placeholder — the site will visibly be broken in preview until real text is in.

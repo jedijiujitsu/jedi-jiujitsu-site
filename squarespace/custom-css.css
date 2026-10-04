@@ -230,8 +230,6 @@
   /* Coach tile photo (coaches with images) */
   #jjj .coach-tile-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;transition:transform .5s ease;}
   #jjj .coach:hover .coach-tile-img{transform:scale(1.05);}
-  #jjj .placeholder-note{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;opacity:0.5;margin-top:20px;}
-
   /* MODAL */
   #jjj .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);z-index:100;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;visibility:hidden;transition:opacity .3s ease,visibility .3s ease;}
   #jjj .modal-backdrop.open{opacity:1;visibility:visible;}
@@ -892,6 +890,44 @@
      nav.pagination a color/text-decoration:
        Bedford link styles. !important.
      --- */
+
+  /* SCHEDULE FLYER MODAL */
+  #jjj .schedule-flyer-modal{max-width:1100px;}
+  #jjj .sched-flyer-header{display:flex;justify-content:flex-end;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--line);}
+  #jjj .sched-flyer-print{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:0.12em;padding:8px 20px;border:2px solid var(--red);background:transparent;color:var(--red);cursor:pointer;transition:background .2s ease,color .2s ease;}
+  #jjj .sched-flyer-print:hover{background:var(--red);color:var(--white);}
+  #jjj .sched-flyer-scroll{padding:16px;}
+  #jjj .sched-flyer-img{display:block;width:100%;height:auto;}
+  #jjj .sched-flyer-fullsize{display:none;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:0.12em;text-align:center;padding:12px;color:var(--red);border-top:1px solid var(--line);}
+  @media(max-width:700px){
+    #jjj .sched-flyer-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+    #jjj .sched-flyer-img{min-width:800px;width:800px;}
+    #jjj .sched-flyer-fullsize{display:block;}
+  }
+
+  /* PRINTABLE SCHEDULE
+     @media print hides everything except the flyer image when the
+     schedule flyer modal is open. Uses visibility technique so the
+     image keeps its position at top-left of the page.
+     Rules that needed !important:
+       - body * visibility:hidden — overrides Bedford's inline styles
+       - #sched-flyer-img visibility:visible — re-shows the image
+       - .nav, .jjj-footer, #header, #footer display:none — Bedford
+         nav/footer have high-specificity rules
+       - .modal-backdrop background:none — override our own rgba backdrop
+       - .sched-flyer-header, .sched-flyer-fullsize display:none —
+         hide print button and full-size link on paper */
+  @media print{
+    @page{size:landscape;margin:0.5in;}
+    body *{visibility:hidden !important;}
+    #jjj .modal-backdrop.open{visibility:visible !important;position:static !important;background:none !important;padding:0 !important;}
+    #jjj .schedule-flyer-modal{visibility:visible !important;max-width:none !important;max-height:none !important;overflow:visible !important;border:none !important;background:white !important;transform:none !important;}
+    #jjj .sched-flyer-scroll{visibility:visible !important;padding:0 !important;overflow:visible !important;}
+    #jjj .sched-flyer-img{visibility:visible !important;max-width:100%;max-height:7.4in;object-fit:contain;width:auto;min-width:0;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+    #jjj .sched-flyer-header{display:none !important;}
+    #jjj .sched-flyer-fullsize{display:none !important;}
+    .nav,#header,#footer,.jjj-footer,#siteWrapper>.header-inner{display:none !important;}
+  }
 
   @media (prefers-reduced-motion: reduce){
     *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;}

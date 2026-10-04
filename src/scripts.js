@@ -41,7 +41,22 @@ const IMAGE_BASE = "https://jedijiujitsu.github.io/jedi-jiujitsu-site/src/";
 // All paths are stored in coaches.js; rendering slices to this cap.
 const MAX_CAROUSEL_PHOTOS = 6;
 
+// Schedule flyer — the designed weekly schedule image Jamie provides.
+// Bump SCHEDULE_FLYER_VERSION whenever the flyer file is replaced,
+// so browsers do not show the old cached copy.
+const SCHEDULE_FLYER = "images/schedule/weekly-schedule.jpg";
+const SCHEDULE_FLYER_VERSION = "1";
+
 const DISC = { bjj:'BJJ', judo:'Judo', muaythai:'Muay Thai', kids:'Kids', homeschool:'Homeschool', private:'Private' };
+
+// Class descriptions — keyed by class name so duplicates (e.g. two Kids Kickboxing
+// entries on different days) share one description. Rendered in the class modal as
+// a normal paragraph above the CTA. Separate from the italic `note` field.
+const CLASS_DESCRIPTIONS = {
+  'Kids Kickboxing': "Jedi Jiu-Jitsu Kids Kickboxing blends American Kickboxing, Muay Thai, American Boxing, Karate, and Tae Kwon Do. Progress is tracked with a beginner, intermediate, and advanced t-shirt system rather than belts.",
+  'Gi-Zers (Mat 1)': "Brazilian Jiu-Jitsu for students over 40. Train with people at your stage of life, learn real technique, and enjoy the process. The name is a joke. The jiu-jitsu isn't.",
+  'Homeschool Jiu-Jitsu': "A Brazilian Jiu-Jitsu class for kids, held during the day and typically attended by homeschool families.",
+};
 
 /* Coach grid */
 const coachGrid = document.getElementById('coach-grid');
@@ -75,13 +90,13 @@ const schedDays = document.getElementById('sched-days');
 function buildSchedule(filter='all') {
   schedDays.innerHTML = '';
   SCHEDULE_DATA.forEach(day => {
-    const visible = filter === 'all' ? day.classes : day.classes.filter(c => c.discipline === filter);
+    const visible = filter === 'all' ? day.classes : day.classes.filter(c => c.disciplines.includes(filter));
 
     // Skip day if filter hides everything
     if (filter !== 'all' && visible.length === 0) return;
 
     const summary = filter === 'all'
-      ? Array.from(new Set(day.classes.map(c => DISC[c.discipline]))).join(' · ')
+      ? Array.from(new Set(day.classes.map(c => DISC[c.disciplines[0]]))).join(' · ')
       : `${visible.length} ${DISC[filter]} class${visible.length === 1 ? '' : 'es'}`;
 
     const card = document.createElement('div');
@@ -101,7 +116,7 @@ function buildSchedule(filter='all') {
               <div class="sched-class-info">
                 <div class="sched-class-name">${cl.name}</div>
               </div>
-              <div class="sched-class-disc" data-disc="${cl.discipline}">${DISC[cl.discipline]}</div>
+              <div class="sched-class-disc" data-disc="${cl.disciplines[0]}">${DISC[cl.disciplines[0]]}</div>
             </button>
           `).join('')}
         </div>
@@ -180,7 +195,6 @@ function openProgramModal(p) {
       <div class="modal-role">${p.tag}</div>
       ${bodyHtml}
       <a href="${TRIAL_URL}" class="btn-red-lg" target="_blank" rel="noopener" style="margin-top:8px;align-self:flex-start;">Try a Free Class →</a>
-      <a href="${p.url}" class="modal-link" target="_blank" rel="noopener">View Full Program Page</a>
     </div>`;
   openModal();
 }
@@ -215,6 +229,27 @@ if (aboutBtn) {
 
         <a href="${TRIAL_URL}" class="btn-red-lg" target="_blank" rel="noopener" style="margin-top:8px;align-self:flex-start;">Schedule Your First Class →</a>
       </div>`;
+    openModal();
+  });
+}
+
+/* =========================================================
+   SCHEDULE FLYER — printable weekly schedule modal
+   ========================================================= */
+const schedFlyerBtn = document.getElementById('schedule-flyer-btn');
+if (schedFlyerBtn) {
+  schedFlyerBtn.addEventListener('click', () => {
+    const flyerSrc = IMAGE_BASE + SCHEDULE_FLYER + "?v=" + SCHEDULE_FLYER_VERSION;
+    modalContent.className = 'modal schedule-flyer-modal';
+    modalContent.innerHTML = `
+      <div class="sched-flyer-header">
+        <button class="sched-flyer-print" type="button" onclick="window.print()">Print</button>
+        <button class="modal-close" aria-label="Close">×</button>
+      </div>
+      <div class="sched-flyer-scroll">
+        <img class="sched-flyer-img" src="${flyerSrc}" alt="Jedi Jiu-Jitsu weekly class schedule. The full schedule is also listed on this page." id="sched-flyer-img">
+      </div>
+      <a href="${flyerSrc}" class="sched-flyer-fullsize" target="_blank" rel="noopener">Open full size →</a>`;
     openModal();
   });
 }
@@ -285,7 +320,6 @@ function openCoachModal(c, num) {
         <h2 class="modal-name">${c.name}</h2>
         <div class="modal-role">${c.role}</div>
         ${bioHtml}
-        ${c.url ? `<a href="${c.url}" class="modal-link" target="_blank" rel="noopener">View Full Bio Page</a>` : ''}
       </div>
     </div>`;
 
@@ -346,7 +380,7 @@ function initCarousel(panel, photos) {
 
 function openClassModal(cl, day) {
   // Private/custom lesson — special handling
-  if (cl.discipline === 'private') {
+  if (cl.disciplines.includes('private')) {
     modalContent.className = 'modal class-modal';
     modalContent.innerHTML = `
       <button class="modal-close" aria-label="Close">×</button>
@@ -374,8 +408,9 @@ function openClassModal(cl, day) {
       <div class="modal-eyebrow">${day}</div>
       <div class="class-modal-time">${cl.time}</div>
       <h2 class="modal-name">${cl.name}</h2>
-      <div class="modal-role">Discipline · ${DISC[cl.discipline]}</div>
+      <div class="modal-role">Discipline · ${cl.disciplines.map(d => DISC[d]).join(' · ')}</div>
       ${cl.note ? `<p class="class-modal-note">${cl.note}</p>` : ''}
+      ${CLASS_DESCRIPTIONS[cl.name] ? `<p style="font-size:15px;line-height:1.6;color:#2a2a2a;">${CLASS_DESCRIPTIONS[cl.name]}</p>` : ''}
       <a href="${TRIAL_URL}" class="btn-red-lg" target="_blank" rel="noopener" style="margin-top:8px;align-self:flex-start;">Try This Class — Free</a>
     </div>`;
   openModal();

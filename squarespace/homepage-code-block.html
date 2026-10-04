@@ -109,7 +109,7 @@
         <div class="section-tag">Schedule</div>
         <h2 class="section-title">See When<br>We <span class="red">Train.</span></h2>
       </div>
-      <a href="https://www.jjjtulsajiu-jitsu.com/jjjclass-schedule" class="btn-ghost-light">Printable Schedule →</a>
+      <button type="button" class="btn-ghost-light" id="schedule-flyer-btn">Printable Schedule →</button>
     </div>
 
     <div class="sched-filters" id="sched-filters">
@@ -134,7 +134,7 @@
       </div>
     </div>
     <div class="coach-grid" id="coach-grid"></div>
-    <p class="placeholder-note">Tap any coach to read their bio · /Photo placeholders — replace with portraits</p>
+    <p class="placeholder-note">Tap any coach to read their bio</p>
   </div>
 </section>
 
@@ -243,9 +243,9 @@ const COACHES = [
     bio:[
       "Jamie Mickle has over 30 years of experience in practicing martial arts. He has a BA in Mass Communications and has been a martial arts instructor for over 20 years. He is currently an affiliate of Carlos Machado and attends regular continuing education classes twice per year.",
       "He also conducts seminars and participates regularly in seminars from peer professors, furthering his education in the art of Brazilian Jiu-Jitsu. His instruction provides services for self-care, self-defense, Brazilian jiu-jitsu and life coaching.",
-      "He provides an environment that allows everyone to progress at their own pacing and to reach their individual goals."
+      "He provides an environment that allows everyone to progress at their own pace and to reach their individual goals."
     ],
-    creds:["3rd Degree Blackbelt Brazilian Jiu-Jitsu","2nd Degree Blackbelt Karate","4th Degree Blackbelt Ketsugo Jiu-Jitsu"],
+    creds:["3rd Degree Black Belt Brazilian Jiu-Jitsu","2nd Degree Black Belt Karate","4th Degree Black Belt Ketsugo Jiu-Jitsu"],
     // NOTE: array order is deliberate — jamie-03 is first because it is the tile/primary photo.
     // Do NOT re-sort these by filename. images[0] = tile photo.
     images:[
@@ -260,8 +260,8 @@ const COACHES = [
     url:'https://www.jjjtulsajiu-jitsu.com/gregory-hoyle-bjj',
     bio:[
       "Professor Greg Hoyle is a Computer Engineer who enjoys gaming and Martial Arts.",
-      "He has been practicing Martial Arts for over 30 years. His journey began with Kung Fu (4yrs), transitioned to Karate (2yrs), Judo (1yr), Muay Thai (2yrs), and Brazilian Jiu-Jitsu (21yrs). He is a first degree blackbelt in BJJ. Professor Greg's BJJ knowledge is vast and he lends his expertise during the classes that he teaches and attends. When training, he enjoys finding new and inventive ways to overcome larger opponents. He offers private sessions for those who are interested in these tactics. His wife, Patsy, also trains and is a brown belt.",
-      "There is only one thing you need to remember with Professor Greg — Where there's a wrist, there's a lock."
+      "He has been practicing Martial Arts for over 30 years. His journey began with Kung Fu (4yrs), transitioned to Karate (2yrs), Judo (1yr), Muay Thai (2yrs), and Brazilian Jiu-Jitsu (21yrs). He is a first degree black belt in BJJ. Professor Greg's BJJ knowledge is vast and he lends his expertise during the classes that he teaches and attends. When training, he enjoys finding new and inventive ways to overcome larger opponents. He offers private sessions for those who are interested in these tactics. His wife, Patsy, also trains and is a brown belt.",
+      "There is only one thing you need to remember with Professor Greg — where there's a wrist, there's a lock."
     ],
     creds:["1st Degree Black Belt in Brazilian Jiu-Jitsu"],
     images:[
@@ -274,9 +274,9 @@ const COACHES = [
   { id:'shane', name:'Shane Branstetter', role:'BJJ Instructor',
     url:'https://www.jjjtulsajiu-jitsu.com/shane-branstetter',
     bio:[
-      "Shane Branstetter has been an admirer of martial arts his entire life. Because of health issues, he felt he was not able to participate in martial arts. After he was diagnosed with a life-threatening condition, he made the decision to begin a new journey in his life. He began exercising regularly and changed his eating habits. In 2018, he joined Jedi Jiu-Jitsu and became a practitioner of Brazilian Jiu-Jitsu. Since then, he has lost over 200 lbs, and has been training consistently for seven years.",
+      "Shane Branstetter has been an admirer of martial arts his entire life. Because of health issues, he felt he was not able to participate in martial arts. After he was diagnosed with a life-threatening condition, he made the decision to begin a new journey in his life. He began exercising regularly and changed his eating habits. In 2018, he joined Jedi Jiu-Jitsu and became a practitioner of Brazilian Jiu-Jitsu. Since then, he has lost over 200 lbs, and has been training consistently for eight years.",
       "He trains at least 5 days a week and instructs at least 2 days a week. Because of his tremendous amount of dedication, focus, and hard work, he has achieved the rank of black belt in less time than most practitioners.",
-      "Like all instructors at Jedi Jiu-Jitsu, he incorporates a wealth of knowledge, passion, and camaraderie to his classes. He also offers private sessions to students."
+      "Like all instructors at Jedi Jiu-Jitsu, he brings a wealth of knowledge, passion, and camaraderie to his classes. He also offers private sessions to students."
     ],
     creds:["Black Belt in Brazilian Jiu-Jitsu"],
     images:[...Array(11)].map((_,i)=>`images/coaches/shane/shane-branstetter-${String(i+1).padStart(2,'0')}.jpg`)
@@ -284,16 +284,17 @@ const COACHES = [
   { id:'robert', name:'Robert Hale', role:'BJJ Instructor',
     url:'https://www.jjjtulsajiu-jitsu.com/robert-hale',
     bio:[
-      "Robert Hale has 25 years of experience in practicing martial arts and 20 years of teaching. He is a manager at a fortune 500 company that services over 6.7 million customers. He participates regularly in seminars from peer professors and participates in affiliate training."
+      "Robert Hale has 25 years of experience in practicing martial arts and 20 years of teaching. He is a manager at a Fortune 500 company that serves over 6.7 million customers. He participates regularly in seminars from peer professors and participates in affiliate training."
     ],
     creds:["Black Belt in Brazilian Jiu-Jitsu","2nd Degree Black Belt in Karate","3rd Degree Black Belt in Ketsugo Jiu-Jitsu"],
-    images:[]
+    // NOTE: filename is "robby", not "robert" — intentional, do not rename.
+    images:["images/coaches/robby/robby-01.jpeg"]
   },
   { id:'lester', name:'Lester Phillips', role:'Muay Thai Head Coach',
     url:'https://www.jjjtulsajiu-jitsu.com/muaythai',
     bio:[
-      "Coach Lester is a lifetime Martial Artist with a lifetime of experience. He is a 3x World Kickboxing Champion across two different weight classes. His style of teaching combines building a strong foundation along with utilizing superior footwork and striking. His classes are perfect for a beginner all the way to world class striker.",
-      "Additionally, he holds a degree in sports physiology and is a premier personal trainer along with recovery specialist."
+      "Coach Lester is a lifelong martial artist. He is a 3x World Kickboxing Champion across two different weight classes. His style of teaching combines building a strong foundation along with utilizing superior footwork and striking. His classes are perfect for beginners all the way to world-class strikers.",
+      "Additionally, he holds a degree in sports physiology and is a premier personal trainer and recovery specialist."
     ],
     creds:["3x World Kickboxing Champion (two weight classes)","Degree in Sports Physiology","Personal Trainer & Recovery Specialist"],
     images:[
@@ -310,13 +311,14 @@ const COACHES = [
       "Dr. Patrick Sharp has over 30 years of experience in practicing martial arts and over 20 years of teaching. He is the Senior physician and owns Cenegenics Tulsa. He participates regularly in seminars from peer professors and participates in affiliate training. He also provides medical support for XFN."
     ],
     creds:["Black Belt in Brazilian Jiu-Jitsu","4th Degree Black Belt in Karate","3rd Degree Black Belt in Ketsugo Jiu-Jitsu"],
-    images:[]
+    // NOTE: filename is "pat", not "patrick" — intentional, do not rename.
+    images:["images/coaches/pat/pat-01.jpeg"]
   },
   { id:'nick', name:'Nick Giles', role:'Kids Kickboxing',
     url:'https://www.jjjtulsajiu-jitsu.com/nickgiles',
     bio:[
-      "Coach Nick heads up our exciting new Kids Kickboxing program. With the experience of running a Martial Arts school, having fought multiple kickboxing matches — Coach Nick brings an exciting element to the program.",
-      "Kids will learn discipline, respect and the best techniques from Muay Thai, American Boxing, Kids Kickboxing, Karate and Tae Kwon Do."
+      "Coach Nick heads up our exciting new Kids Kickboxing program. Having run a martial arts school and fought multiple kickboxing matches, Coach Nick brings an exciting element to the program.",
+      "Kids will learn discipline, respect and the best techniques from Muay Thai, American Boxing, American Kickboxing, Karate and Tae Kwon Do."
     ],
     creds:["4th Degree Black Belt in Karate and Tae Kwon Do","University of Tulsa graduate · B.S. in Sociology","ISSA and NASM certified personal trainer","Currently a Systems Engineer"],
     images:[
@@ -329,7 +331,7 @@ const COACHES = [
   { id:'tim', name:'Tim Webster', role:'BJJ Instructor',
     bio:[
       "Tim Webster is a mechanical engineer who has been studying Brazilian Jiu-Jitsu since 2013 when he began training in Gracie Jiu-Jitsu. In 2018 he began teaching as a certified instructor and he received his black belt in 2023. In 2025 he joined the Carlos Machado Jiu-Jitsu association as an instructor at Jedi Jiu-Jitsu, where he enjoys helping kids and adults to learn the art of Brazilian Jiu-Jitsu. As someone who started Jiu-Jitsu in his early 40s, Tim especially enjoys helping people who think that they are not young enough, strong enough, or in good enough shape to learn martial arts.",
-      "When he is not on the mats teaching, Tim can be found either working as the Chief Operating Officer for XRG Technologies, an engineering company specializing in combustion and heater transfer solutions for the refining and chemical industry, or spending time with his wife Crystal, daughter Holly and two poorly behaved rescue dogs, Arlo and Lola. He enjoys reading, swimming, watching movies, traveling and teaching wrist locks to everyone."
+      "When he is not on the mats teaching, Tim can be found either working as the Chief Operating Officer for XRG Technologies, an engineering company specializing in combustion and heat transfer solutions for the refining and chemical industry, or spending time with his wife Crystal, daughter Holly and two poorly behaved rescue dogs, Arlo and Lola. He enjoys reading, swimming, watching movies, traveling and teaching wrist locks to everyone."
     ],
     creds:["Black Belt in Brazilian Jiu-Jitsu (2023)","Certified instructor since 2018","Training since 2013"],
     // NOTE: tim-00.jpg filename is intentional — do not rename to tim-01 to "fix" the numbering.
@@ -339,8 +341,8 @@ const COACHES = [
     bio:[
       "Cortez Edwards is a dedicated mental health professional and youth athletics coach with 15 years of experience specializing in supporting youth aged 6 to 19.",
       "Born in Tulsa, Oklahoma, and a graduate of Union High School, Cortez earned his bachelor's degrees in Sociology and Criminal Justice from Northeastern State University. Driven by a lifelong commitment to empowering youth and strengthening families, he is currently advancing his expertise by pursuing a Master of Social Work (MSW).",
-      "Beyond his clinical work, Cortez has spent the last two decades mentoring young men and women and young athletes, coaching youth football, soccer, wrestling, and Brazilian Jiu-Jitsu (BJJ). His deep understanding of athletic discipline stems from his own experience competing in amateur kickboxing, Taekwondo, and Goju Ryu Karate and Brazilian Jiu Jitsu.",
-      "Cortez lives by the personal motto: \"If your mind can conceive it and you firmly believe it, then you can achieve it.\" He resides in Oklahoma with his wife, Danna. They have three children—Destiny (26), Isaiah (23), and Jase (18)—and a 7-year-old granddaughter, Alecia, and their 7 year old pit bull Justice."
+      "Beyond his clinical work, Cortez has spent the last two decades mentoring young men and women and young athletes, coaching youth football, soccer, wrestling, and Brazilian Jiu-Jitsu (BJJ). His deep understanding of athletic discipline stems from his own experience competing in amateur kickboxing, Taekwondo, Goju-Ryu Karate, and Brazilian Jiu-Jitsu.",
+      "Cortez lives by the personal motto: \"If your mind can conceive it and you firmly believe it, then you can achieve it.\" He resides in Oklahoma with his wife, Danna. They have three children—Destiny (26), Isaiah (23), and Jase (18)—and a 7-year-old granddaughter, Alecia, and their 7-year-old pit bull Justice."
     ],
     creds:["B.A. Sociology and Criminal Justice, Northeastern State University","Pursuing Master of Social Work (MSW)","15 years coaching youth athletics"],
     images:["images/coaches/cortez/cortez-01.jpg"]
@@ -370,6 +372,9 @@ const COACHES = [
 // Discipline values (used for color-coding and filter buttons):
 //   "bjj" | "judo" | "muaythai" | "kids" | "homeschool" | "private"
 //
+// disciplines[] — array of tags. The FIRST tag is primary and drives
+// the colored label on the class row. Filter buttons match any tag.
+//
 // Special fields:
 //   flexTime: true  → shows time in condensed style (e.g. "By appt.")
 //   note: string    → italic subheading in the class detail modal
@@ -379,50 +384,52 @@ const COACHES = [
 
 const SCHEDULE_DATA = [
   { day:'Monday', short:'Mon', classes:[
-    { time:'4:30 PM', name:'Kids Kickboxing',         coach:'Nick Giles',         discipline:'kids' },
-    { time:'5:30 PM', name:'Kids Judo',               coach:'Jedi Jiu-Jitsu Staff',   discipline:'kids' },
-    { time:'6:30 PM', name:'Adult Judo',              coach:'Jedi Jiu-Jitsu Staff',   discipline:'judo' },
-    { time:'6:30 PM', name:'Jiu-Jitsu Fundamentals',  coach:'Jamie Mickle',       discipline:'bjj' },
-    { time:'7:30 PM', name:'Adult Jiu-Jitsu',         coach:'Jamie Mickle',       discipline:'bjj' },
+    { time:'4:30 PM', name:'Kids Kickboxing',         coach:'Nick Giles',             disciplines:['kids'] },
+    { time:'5:30 PM', name:'Kids Judo',               coach:'Jedi Jiu-Jitsu Staff',   disciplines:['kids','judo'] },
+    { time:'6:30 PM', name:'Adult Judo',              coach:'Jedi Jiu-Jitsu Staff',   disciplines:['judo'] },
+    { time:'6:30 PM', name:'Jiu-Jitsu Fundamentals',  coach:'Jamie Mickle',           disciplines:['bjj'] },
+    { time:'7:30 PM', name:'Adult Jiu-Jitsu',         coach:'Jamie Mickle',           disciplines:['bjj'] },
   ]},
   { day:'Tuesday', short:'Tue', classes:[
-    { time:'11:00 AM', name:'Homeschool Jiu-Jitsu',   coach:'Jamie Mickle',       discipline:'homeschool' },
-    { time:'12:00 PM', name:'Adult Jiu-Jitsu',        coach:'Jamie Mickle',       discipline:'bjj' },
-    { time:'4:30 PM',  name:'Kids Jiu-Jitsu',         coach:'Jamie Mickle',       discipline:'kids' },
-    { time:'6:00 PM',  name:'Kids Jiu-Jitsu',         coach:'Jamie Mickle',       discipline:'kids' },
-    { time:'7:00 PM',  name:'Adult Jiu-Jitsu',        coach:'Jamie Mickle',       discipline:'bjj' },
+    { time:'11:00 AM', name:'Homeschool Jiu-Jitsu',   coach:'Jamie Mickle',           disciplines:['homeschool','bjj','kids'] },
+    { time:'12:00 PM', name:'Adult Jiu-Jitsu',        coach:'Jamie Mickle',           disciplines:['bjj'] },
+    { time:'4:30 PM',  name:'Kids Jiu-Jitsu',         coach:'Jamie Mickle',           disciplines:['kids','bjj'] },
+    { time:'6:00 PM',  name:'Kids Jiu-Jitsu',         coach:'Jamie Mickle',           disciplines:['kids','bjj'] },
+    { time:'7:00 PM',  name:'Adult Jiu-Jitsu',        coach:'Jamie Mickle',           disciplines:['bjj'] },
   ]},
   { day:'Wednesday', short:'Wed', classes:[
-    { time:'6:00 AM', name:'Adult No-Gi Jiu-Jitsu',   coach:'Jamie Mickle',       discipline:'bjj' },
-    { time:'4:30 PM', name:'Kids Kickboxing',         coach:'Nick Giles',         discipline:'kids' },
-    { time:'5:30 PM', name:'Muay Thai',               coach:'Lester Phillips',    discipline:'muaythai' },
-    { time:'6:30 PM', name:'Adult Judo',              coach:'Jedi Jiu-Jitsu Staff',   discipline:'judo' },
-    { time:'7:30 PM', name:'Adult No-Gi Jiu-Jitsu',   coach:'Jamie Mickle',       discipline:'bjj' },
+    { time:'6:00 AM', name:'Adult No-Gi Jiu-Jitsu',   coach:'Jamie Mickle',           disciplines:['bjj'] },
+    { time:'4:30 PM', name:'Kids Kickboxing',         coach:'Nick Giles',             disciplines:['kids'] },
+    { time:'5:30 PM', name:'Muay Thai',               coach:'Lester Phillips',        disciplines:['muaythai'] },
+    { time:'6:30 PM', name:'Adult Judo',              coach:'Jedi Jiu-Jitsu Staff',   disciplines:['judo'] },
+    { time:'7:30 PM', name:'Adult No-Gi Jiu-Jitsu',   coach:'Jamie Mickle',           disciplines:['bjj'] },
   ]},
   { day:'Thursday', short:'Thu', classes:[
-    { time:'11:00 AM', name:'Homeschool Jiu-Jitsu',   coach:'Jamie Mickle',       discipline:'homeschool' },
-    { time:'12:00 PM', name:'Adult Jiu-Jitsu',        coach:'Jamie Mickle',       discipline:'bjj' },
-    { time:'4:30 PM',  name:'Kids Jiu-Jitsu',         coach:'Jamie Mickle',       discipline:'kids' },
-    { time:'6:00 PM',  name:'Kids Jiu-Jitsu',         coach:'Jamie Mickle',       discipline:'kids' },
-    { time:'7:00 PM',  name:'Adult Jiu-Jitsu',        coach:'Jamie Mickle',       discipline:'bjj' },
+    { time:'11:00 AM', name:'Homeschool Jiu-Jitsu',   coach:'Jamie Mickle',           disciplines:['homeschool','bjj','kids'] },
+    { time:'12:00 PM', name:'Adult Jiu-Jitsu',        coach:'Jamie Mickle',           disciplines:['bjj'] },
+    { time:'4:30 PM',  name:'Kids Jiu-Jitsu',         coach:'Jamie Mickle',           disciplines:['kids','bjj'] },
+    { time:'6:00 PM',  name:'Kids Jiu-Jitsu',         coach:'Jamie Mickle',           disciplines:['kids','bjj'] },
+    { time:'7:00 PM',  name:'Adult Jiu-Jitsu',        coach:'Jamie Mickle',           disciplines:['bjj'] },
   ]},
   { day:'Friday', short:'Fri', classes:[
-    { time:'5:30 PM',  name:'Muay Thai',                 coach:'Lester Phillips',  discipline:'muaythai' },
-    { time:'6:30 PM',  name:'Open Mat',                  coach:'All Instructors',  discipline:'bjj' },
-    { time:'By appt.', name:'Individual Custom Lessons', coach:'Any Instructor',   discipline:'private', flexTime:true,
-      note:'Available before scheduled classes (before 5:30 PM) and after (after 7:30 PM). Book by appointment.' },
+    { time:'By appt.', name:'Individual Custom Lessons', coach:'Any Instructor',       disciplines:['private'], flexTime:true,
+      note:'Available by appointment.' },
+    { time:'5:30 PM',  name:'Muay Thai',                 coach:'Lester Phillips',      disciplines:['muaythai'] },
+    { time:'6:30 PM',  name:'Gi-Zers (Mat 1)',                                         disciplines:['bjj'] },
+    // TODO confirm Open Mat time with Jamie
+    { time:'6:30 PM',  name:'Open Mat (Mat 2)',           coach:'All Instructors',      disciplines:['bjj'] },
   ]},
   { day:'Saturday', short:'Sat', classes:[
-    { time:'10:00 AM', name:'No-Gi Jiu-Jitsu',        coach:'Jamie Mickle',       discipline:'bjj' },
-    { time:'11:30 AM', name:'Kids Judo',              coach:'Jedi Jiu-Jitsu Staff',   discipline:'kids' },
-    { time:'12:30 PM', name:'Adult Judo',             coach:'Jedi Jiu-Jitsu Staff',   discipline:'judo' },
+    { time:'10:00 AM', name:'No-Gi Jiu-Jitsu',        coach:'Jamie Mickle',           disciplines:['bjj'] },
+    { time:'11:30 AM', name:'Kids Judo',              coach:'Jedi Jiu-Jitsu Staff',   disciplines:['kids','judo'] },
+    { time:'12:30 PM', name:'Adult Judo',             coach:'Jedi Jiu-Jitsu Staff',   disciplines:['judo'] },
   ]},
   { day:'Sunday', short:'Sun', classes:[
-    { time:'11:00 AM', name:'Grapple Chapel',                coach:'Jamie Mickle',     discipline:'bjj',
+    { time:'10:00 AM', name:'Muay Thai Fundamentals',                                  disciplines:['muaythai'] },
+    { time:'11:00 AM', name:'Grapple Chapel',                coach:'Jamie Mickle',      disciplines:['bjj'],
       note:'A Sunday morning training session at Jedi Jiu-Jitsu. Call the academy for details.' },
-    { time:'12:30 PM', name:'Kids Competition Training',     coach:'Jamie Mickle',     discipline:'kids',
+    { time:'12:30 PM', name:'Kids Competition Training',     coach:'Jamie Mickle',      disciplines:['kids','bjj'],
       note:'Focused training for kids preparing for tournaments. Call the academy for details.' },
-    { time:'By appt.', name:'Individual Custom Lessons',     coach:'Any Instructor',   discipline:'private', flexTime:true },
   ]},
 ];
 
@@ -448,7 +455,7 @@ const PROGRAMS = [
     hasRealCopy: true,
     bio: [
       "We provide a structured environment for Brazilian Jiu-Jitsu practice that allows for a full scope of what BJJ has to offer. You will find that our students show respect for one another during class and are here for one purpose: To become better people through Jiu-Jitsu.",
-      "Our family atmosphere is good at filtering out the meat heads, but we also have lots of students who are talented and train hard for competitions.",
+      "Our family atmosphere is good at filtering out the meatheads, but we also have lots of students who are talented and train hard for competitions.",
       "Our goal is to teach our students the fundamentals of self-defense through Jiu-Jitsu practice and provide a family setting where our community can flourish. Please join us and become part of our Jiu-Jitsu family!"
     ]
   },
@@ -461,14 +468,14 @@ const PROGRAMS = [
     url: 'https://www.jjjtulsajiu-jitsu.com/kids',
     hasRealCopy: true,
     bio: [
-      "Our Kid's program features both self-defense and sports style training."
+      "Our kids' program features both self-defense and sports style training."
     ],
     sections: [
       {
         title: 'Self-Defense',
         body: [
           "We will teach your child to use verbal assertiveness to deter bullies and several non-violent self-defense techniques to stay safe if physically assaulted.",
-          "We use leverage-based control holds to neutralize threats without violence. The bottom line — we will prepare your child to defend themselves against bullies without turning them into one."
+          "We use leverage-based control holds to neutralize threats without violence. The bottom line: we will prepare your child to defend themselves against bullies without turning them into one."
         ]
       },
       {
@@ -488,7 +495,7 @@ const PROGRAMS = [
     url: 'https://www.jjjtulsajiu-jitsu.com/judo',
     hasRealCopy: true,
     bio: [
-      "Learn Judo in a systematic way focusing on physical and technical development. Learn to use your body and strength efficiently to defend against an opponent through throws, pins, strangle and joint locks; all of which can be safely applied in both training exercises and realistic sparring sessions against a resisting opponent."
+      "Learn Judo in a systematic way focusing on physical and technical development. Learn to use your body and strength efficiently to defend against an opponent through throws, pins, strangles and joint locks; all of which can be safely applied in both training exercises and realistic sparring sessions against a resisting opponent."
     ]
   },
   {
@@ -527,7 +534,7 @@ const PROGRAMS = [
     url: 'https://www.jjjtulsajiu-jitsu.com/tournaments',
     hasRealCopy: true,
     bio: [
-      "If you are interested in tournament training, we have professors that have been training champions for over 20 years. We offer some of the best competition training and guidance in the Tulsa area. We have smaller, specialized training sessions offered to our competition team that allows individualized training at a more vigorous pace."
+      "Tournament training for kids on the Jedi competition team. See the schedule for session times."
     ]
   }
 ];
@@ -633,7 +640,22 @@ const IMAGE_BASE = "https://jedijiujitsu.github.io/jedi-jiujitsu-site/src/";
 // All paths are stored in coaches.js; rendering slices to this cap.
 const MAX_CAROUSEL_PHOTOS = 6;
 
+// Schedule flyer — the designed weekly schedule image Jamie provides.
+// Bump SCHEDULE_FLYER_VERSION whenever the flyer file is replaced,
+// so browsers do not show the old cached copy.
+const SCHEDULE_FLYER = "images/schedule/weekly-schedule.jpg";
+const SCHEDULE_FLYER_VERSION = "1";
+
 const DISC = { bjj:'BJJ', judo:'Judo', muaythai:'Muay Thai', kids:'Kids', homeschool:'Homeschool', private:'Private' };
+
+// Class descriptions — keyed by class name so duplicates (e.g. two Kids Kickboxing
+// entries on different days) share one description. Rendered in the class modal as
+// a normal paragraph above the CTA. Separate from the italic `note` field.
+const CLASS_DESCRIPTIONS = {
+  'Kids Kickboxing': "Jedi Jiu-Jitsu Kids Kickboxing blends American Kickboxing, Muay Thai, American Boxing, Karate, and Tae Kwon Do. Progress is tracked with a beginner, intermediate, and advanced t-shirt system rather than belts.",
+  'Gi-Zers (Mat 1)': "Brazilian Jiu-Jitsu for students over 40. Train with people at your stage of life, learn real technique, and enjoy the process. The name is a joke. The jiu-jitsu isn't.",
+  'Homeschool Jiu-Jitsu': "A Brazilian Jiu-Jitsu class for kids, held during the day and typically attended by homeschool families.",
+};
 
 /* Coach grid */
 const coachGrid = document.getElementById('coach-grid');
@@ -667,13 +689,13 @@ const schedDays = document.getElementById('sched-days');
 function buildSchedule(filter='all') {
   schedDays.innerHTML = '';
   SCHEDULE_DATA.forEach(day => {
-    const visible = filter === 'all' ? day.classes : day.classes.filter(c => c.discipline === filter);
+    const visible = filter === 'all' ? day.classes : day.classes.filter(c => c.disciplines.includes(filter));
 
     // Skip day if filter hides everything
     if (filter !== 'all' && visible.length === 0) return;
 
     const summary = filter === 'all'
-      ? Array.from(new Set(day.classes.map(c => DISC[c.discipline]))).join(' · ')
+      ? Array.from(new Set(day.classes.map(c => DISC[c.disciplines[0]]))).join(' · ')
       : `${visible.length} ${DISC[filter]} class${visible.length === 1 ? '' : 'es'}`;
 
     const card = document.createElement('div');
@@ -693,7 +715,7 @@ function buildSchedule(filter='all') {
               <div class="sched-class-info">
                 <div class="sched-class-name">${cl.name}</div>
               </div>
-              <div class="sched-class-disc" data-disc="${cl.discipline}">${DISC[cl.discipline]}</div>
+              <div class="sched-class-disc" data-disc="${cl.disciplines[0]}">${DISC[cl.disciplines[0]]}</div>
             </button>
           `).join('')}
         </div>
@@ -772,7 +794,6 @@ function openProgramModal(p) {
       <div class="modal-role">${p.tag}</div>
       ${bodyHtml}
       <a href="${TRIAL_URL}" class="btn-red-lg" target="_blank" rel="noopener" style="margin-top:8px;align-self:flex-start;">Try a Free Class →</a>
-      <a href="${p.url}" class="modal-link" target="_blank" rel="noopener">View Full Program Page</a>
     </div>`;
   openModal();
 }
@@ -807,6 +828,27 @@ if (aboutBtn) {
 
         <a href="${TRIAL_URL}" class="btn-red-lg" target="_blank" rel="noopener" style="margin-top:8px;align-self:flex-start;">Schedule Your First Class →</a>
       </div>`;
+    openModal();
+  });
+}
+
+/* =========================================================
+   SCHEDULE FLYER — printable weekly schedule modal
+   ========================================================= */
+const schedFlyerBtn = document.getElementById('schedule-flyer-btn');
+if (schedFlyerBtn) {
+  schedFlyerBtn.addEventListener('click', () => {
+    const flyerSrc = IMAGE_BASE + SCHEDULE_FLYER + "?v=" + SCHEDULE_FLYER_VERSION;
+    modalContent.className = 'modal schedule-flyer-modal';
+    modalContent.innerHTML = `
+      <div class="sched-flyer-header">
+        <button class="sched-flyer-print" type="button" onclick="window.print()">Print</button>
+        <button class="modal-close" aria-label="Close">×</button>
+      </div>
+      <div class="sched-flyer-scroll">
+        <img class="sched-flyer-img" src="${flyerSrc}" alt="Jedi Jiu-Jitsu weekly class schedule. The full schedule is also listed on this page." id="sched-flyer-img">
+      </div>
+      <a href="${flyerSrc}" class="sched-flyer-fullsize" target="_blank" rel="noopener">Open full size →</a>`;
     openModal();
   });
 }
@@ -877,7 +919,6 @@ function openCoachModal(c, num) {
         <h2 class="modal-name">${c.name}</h2>
         <div class="modal-role">${c.role}</div>
         ${bioHtml}
-        ${c.url ? `<a href="${c.url}" class="modal-link" target="_blank" rel="noopener">View Full Bio Page</a>` : ''}
       </div>
     </div>`;
 
@@ -938,7 +979,7 @@ function initCarousel(panel, photos) {
 
 function openClassModal(cl, day) {
   // Private/custom lesson — special handling
-  if (cl.discipline === 'private') {
+  if (cl.disciplines.includes('private')) {
     modalContent.className = 'modal class-modal';
     modalContent.innerHTML = `
       <button class="modal-close" aria-label="Close">×</button>
@@ -966,8 +1007,9 @@ function openClassModal(cl, day) {
       <div class="modal-eyebrow">${day}</div>
       <div class="class-modal-time">${cl.time}</div>
       <h2 class="modal-name">${cl.name}</h2>
-      <div class="modal-role">Discipline · ${DISC[cl.discipline]}</div>
+      <div class="modal-role">Discipline · ${cl.disciplines.map(d => DISC[d]).join(' · ')}</div>
       ${cl.note ? `<p class="class-modal-note">${cl.note}</p>` : ''}
+      ${CLASS_DESCRIPTIONS[cl.name] ? `<p style="font-size:15px;line-height:1.6;color:#2a2a2a;">${CLASS_DESCRIPTIONS[cl.name]}</p>` : ''}
       <a href="${TRIAL_URL}" class="btn-red-lg" target="_blank" rel="noopener" style="margin-top:8px;align-self:flex-start;">Try This Class — Free</a>
     </div>`;
   openModal();

@@ -99,7 +99,7 @@ I'd recommend Option A. See `docs/update-workflow.md` for the target script if i
 - **Stats** — 5★ / 7 / 7 / ∞
 - **About** — 2-column copy + feature list + "Read Our Full Story →" button opens **About modal**
 - **Programs** — 6 fight-card rows; each opens a **program modal** with real copy (Adults, Kids, Judo) or placeholder block (Muay Thai, Private Sessions, Kids Competition Training)
-- **Schedule** — animated day cards, filter buttons (All / BJJ / Judo / Muay Thai / Kids / Homeschool), day expand with stagger, class detail modal with coach cross-link. Data in `schedule.js`.
+- **Schedule** — animated day cards, filter buttons (All / BJJ / Judo / Muay Thai / Kids / Homeschool), day expand with stagger, class detail modal with coach cross-link. Data in `schedule.js`. "Printable Schedule" button opens a modal with Jamie's designed flyer image (`src/images/schedule/weekly-schedule.jpg`) + print support. The on-page schedule data and the flyer image are maintained separately and must be updated together.
 - **Coaches** — 7-card grid (flexbox, last row centered); each opens **coach modal** with real bio + credentials + link to existing subpage.
 - **Instagram** — horizontal-scroll carousel of placeholder tiles; production version pulls from `@jedi.jiujitsu` via Behold or Elfsight widget embedded here.
 - **Reviews** — dashed placeholder for Google Reviews feed (Elfsight recommended).
