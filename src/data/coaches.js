@@ -59,7 +59,7 @@ const COACHES = [
     ],
     creds:["Black Belt in Brazilian Jiu-Jitsu","2nd Degree Black Belt in Karate","3rd Degree Black Belt in Ketsugo Jiu-Jitsu"],
     // NOTE: filename is "robby", not "robert" — intentional, do not rename.
-    images:["images/coaches/robby/robby-01.jpeg"]
+    images:["images/coaches/robby/robby-01.jpg"]
   },
   { id:'lester', name:'Lester Phillips', role:'Muay Thai Head Coach',
     url:'https://www.jjjtulsajiu-jitsu.com/muaythai',
@@ -83,7 +83,7 @@ const COACHES = [
     ],
     creds:["Black Belt in Brazilian Jiu-Jitsu","4th Degree Black Belt in Karate","3rd Degree Black Belt in Ketsugo Jiu-Jitsu"],
     // NOTE: filename is "pat", not "patrick" — intentional, do not rename.
-    images:["images/coaches/pat/pat-01.jpeg"]
+    images:["images/coaches/pat/pat-01.jpg"]
   },
   { id:'nick', name:'Nick Giles', role:'Kids Kickboxing',
     url:'https://www.jjjtulsajiu-jitsu.com/nickgiles',
