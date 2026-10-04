@@ -250,6 +250,20 @@ if (schedFlyerBtn) {
         <img class="sched-flyer-img" src="${flyerSrc}" alt="Jedi Jiu-Jitsu weekly class schedule. The full schedule is also listed on this page." id="sched-flyer-img">
       </div>
       <a href="${flyerSrc}" class="sched-flyer-fullsize" target="_blank" rel="noopener">Open full size →</a>`;
+
+    // Create a print-only copy of the flyer as a direct child of <body>.
+    // display:none on screen; @media print shows it and hides everything else.
+    // Avoids the visibility:hidden approach that left 15 pages of blank layout.
+    if (!document.getElementById('jjj-print-root')) {
+      const pr = document.createElement('div');
+      pr.id = 'jjj-print-root';
+      const img = document.createElement('img');
+      img.src = flyerSrc;
+      img.alt = 'Jedi Jiu-Jitsu weekly class schedule. The full schedule is also listed on this page.';
+      pr.appendChild(img);
+      document.body.appendChild(pr);
+    }
+
     openModal();
   });
 }
@@ -424,6 +438,9 @@ function openModal() {
 function closeModal() {
   backdrop.classList.remove('open');
   document.body.classList.remove('modal-open');
+  // Remove the print-only flyer element when the modal closes
+  var pr = document.getElementById('jjj-print-root');
+  if (pr) pr.remove();
 }
 backdrop.addEventListener('click', (e) => {
   if (e.target === backdrop || e.target.classList.contains('modal-close')) closeModal();

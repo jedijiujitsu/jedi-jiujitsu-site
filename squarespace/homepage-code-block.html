@@ -274,7 +274,7 @@ const COACHES = [
   { id:'shane', name:'Shane Branstetter', role:'BJJ Instructor',
     url:'https://www.jjjtulsajiu-jitsu.com/shane-branstetter',
     bio:[
-      "Shane Branstetter has been an admirer of martial arts his entire life. Because of health issues, he felt he was not able to participate in martial arts. After he was diagnosed with a life-threatening condition, he made the decision to begin a new journey in his life. He began exercising regularly and changed his eating habits. In 2018, he joined Jedi Jiu-Jitsu and became a practitioner of Brazilian Jiu-Jitsu. Since then, he has lost over 200 lbs, and has been training consistently for eight years.",
+      "Shane Branstetter has been an admirer of martial arts his entire life. Because of health issues, he felt he was not able to participate in martial arts. After he was diagnosed with a life-threatening condition, he made the decision to begin a new journey in his life. He began exercising regularly and changed his eating habits. In 2018, he joined Jedi Jiu-Jitsu and became a practitioner of Brazilian Jiu-Jitsu. Since then, he has lost over 200 lbs, and has been training consistently ever since.",
       "He trains at least 5 days a week and instructs at least 2 days a week. Because of his tremendous amount of dedication, focus, and hard work, he has achieved the rank of black belt in less time than most practitioners.",
       "Like all instructors at Jedi Jiu-Jitsu, he brings a wealth of knowledge, passion, and camaraderie to his classes. He also offers private sessions to students."
     ],
@@ -849,6 +849,20 @@ if (schedFlyerBtn) {
         <img class="sched-flyer-img" src="${flyerSrc}" alt="Jedi Jiu-Jitsu weekly class schedule. The full schedule is also listed on this page." id="sched-flyer-img">
       </div>
       <a href="${flyerSrc}" class="sched-flyer-fullsize" target="_blank" rel="noopener">Open full size →</a>`;
+
+    // Create a print-only copy of the flyer as a direct child of <body>.
+    // display:none on screen; @media print shows it and hides everything else.
+    // Avoids the visibility:hidden approach that left 15 pages of blank layout.
+    if (!document.getElementById('jjj-print-root')) {
+      const pr = document.createElement('div');
+      pr.id = 'jjj-print-root';
+      const img = document.createElement('img');
+      img.src = flyerSrc;
+      img.alt = 'Jedi Jiu-Jitsu weekly class schedule. The full schedule is also listed on this page.';
+      pr.appendChild(img);
+      document.body.appendChild(pr);
+    }
+
     openModal();
   });
 }
@@ -1023,6 +1037,9 @@ function openModal() {
 function closeModal() {
   backdrop.classList.remove('open');
   document.body.classList.remove('modal-open');
+  // Remove the print-only flyer element when the modal closes
+  var pr = document.getElementById('jjj-print-root');
+  if (pr) pr.remove();
 }
 backdrop.addEventListener('click', (e) => {
   if (e.target === backdrop || e.target.classList.contains('modal-close')) closeModal();

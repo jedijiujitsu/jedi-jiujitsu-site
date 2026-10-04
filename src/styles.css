@@ -60,7 +60,8 @@
      specificity to beat Bedford's ID-based element styles.
      ========================================================= */
   #jjj{font-family:'Barlow',system-ui,sans-serif;color:var(--ink);}
-  #jjj h1,#jjj h2,#jjj h3,#jjj h4,#jjj p,#jjj a,#jjj li,#jjj button{font-family:inherit;letter-spacing:inherit;text-transform:inherit;}
+  #jjj h1,#jjj h2,#jjj h3,#jjj h4,#jjj p{font-family:inherit;letter-spacing:inherit;text-transform:inherit;color:inherit;}
+  #jjj a,#jjj li,#jjj button{font-family:inherit;letter-spacing:inherit;text-transform:inherit;}
 
   /* Button utilities (used only inside #jjj, not in the nav) */
   #jjj .btn-red-lg{display:inline-flex;align-items:center;gap:14px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:16px;text-transform:uppercase;letter-spacing:0.12em;padding:20px 32px;background:var(--red);color:var(--white);transition:background .2s ease;}
@@ -396,10 +397,10 @@
   .footer-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:64px;padding-top:32px;border-top:1px solid var(--line-i);}
   @media(min-width:768px){.footer-grid{grid-template-columns:repeat(3,1fr);}}
   .footer-col h4{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;opacity:0.6;margin-bottom:14px;}
-  .footer-col li{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:14px;text-transform:uppercase;letter-spacing:0.06em;padding:4px 0;}
+  .footer-col li{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:14px;text-transform:uppercase;letter-spacing:0.06em;padding:4px 0;overflow-wrap:anywhere;}
   .footer-col li a:hover{color:var(--red);}
   .footer-bottom{margin-top:48px;padding-top:24px;border-top:1px solid var(--line-i);display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;}
-  .footer-bottom span{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:0.12em;opacity:0.5;}
+  .footer-bottom span{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:0.12em;opacity:0.5;overflow-wrap:anywhere;}
 
   /* =============================================================
      BEDFORD OVERRIDES — hide Squarespace's native nav and footer
@@ -906,27 +907,27 @@
   }
 
   /* PRINTABLE SCHEDULE
-     @media print hides everything except the flyer image when the
-     schedule flyer modal is open. Uses visibility technique so the
-     image keeps its position at top-left of the page.
+     When the flyer modal is open, scripts.js appends <div id="jjj-print-root">
+     with a copy of the flyer <img> directly to <body>. It is display:none on
+     screen. @media print hides every other direct child of <body> and shows
+     only #jjj-print-root. This avoids the visibility:hidden approach (which
+     preserved layout space and produced 15 blank pages) and ensures Elfsight
+     widgets and Bedford chrome are fully removed from the print flow.
      Rules that needed !important:
-       - body * visibility:hidden — overrides Bedford's inline styles
-       - #sched-flyer-img visibility:visible — re-shows the image
-       - .nav, .jjj-footer, #header, #footer display:none — Bedford
-         nav/footer have high-specificity rules
-       - .modal-backdrop background:none — override our own rgba backdrop
-       - .sched-flyer-header, .sched-flyer-fullsize display:none —
-         hide print button and full-size link on paper */
+       - body > *:not(#jjj-print-root) display:none — must override Bedford,
+         Elfsight, and our own layout rules on every direct child of body
+       - #jjj-print-root display:block — must override its own display:none
+         screen style */
+
+  /* Screen: hide the print-only root */
+  #jjj-print-root{display:none;}
+
   @media print{
     @page{size:landscape;margin:0.5in;}
-    body *{visibility:hidden !important;}
-    #jjj .modal-backdrop.open{visibility:visible !important;position:static !important;background:none !important;padding:0 !important;}
-    #jjj .schedule-flyer-modal{visibility:visible !important;max-width:none !important;max-height:none !important;overflow:visible !important;border:none !important;background:white !important;transform:none !important;}
-    #jjj .sched-flyer-scroll{visibility:visible !important;padding:0 !important;overflow:visible !important;}
-    #jjj .sched-flyer-img{visibility:visible !important;max-width:100%;max-height:7.4in;object-fit:contain;width:auto;min-width:0;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
-    #jjj .sched-flyer-header{display:none !important;}
-    #jjj .sched-flyer-fullsize{display:none !important;}
-    .nav,#header,#footer,.jjj-footer,#siteWrapper>.header-inner{display:none !important;}
+    html,body{min-height:0 !important;margin:0 !important;padding:0 !important;}
+    body > *:not(#jjj-print-root){display:none !important;}
+    #jjj-print-root{display:block !important;}
+    #jjj-print-root img{display:block;width:100%;max-height:7.4in;object-fit:contain;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
   }
 
   @media (prefers-reduced-motion: reduce){
